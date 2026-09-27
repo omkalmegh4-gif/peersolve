@@ -1,0 +1,8955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeerSolve - Academic Doubt Platform</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   GLOBAL STYLES & RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --primary:#6366f1;
+  --primary-dark:#4f46e5;
+  --secondary:#8b5cf6;
+  --success:#10b981;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+  --info:#06b6d4;
+
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --sidebar:#111827;
+
+  --input:#ffffff;
+  --soft:#f8fafc;
+  --hover:#f1f5f9;
+}
+
+body.dark-theme{
+  --bg:#0f172a;
+  --card:#111827;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --border:#263244;
+  --sidebar:#020617;
+
+  --input:#0f172a;
+  --soft:#172033;
+  --hover:#1e293b;
+
+  background:#0f172a;
+  color:#f8fafc;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:"Inter",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .25s,color .25s;
+}
+
+button,
+input,
+textarea,
+select{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none !important;
+}
+
+input,
+textarea,
+select{
+  background:var(--input);
+  color:var(--text);
+}
+
+::placeholder{
+  color:#9ca3af;
+}
+
+
+/* =========================================================
+   AUTHENTICATION VIEW
+========================================================= */
+
+.auth-container{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:
+    radial-gradient(circle at 15% 20%,rgba(99,102,241,.30),transparent 30%),
+    radial-gradient(circle at 85% 80%,rgba(139,92,246,.25),transparent 30%),
+    #111827;
+
+  padding:20px;
+}
+
+.auth-card{
+  width:100%;
+  max-width:500px;
+  background:white;
+  border-radius:24px;
+  padding:38px;
+  box-shadow:0 25px 80px rgba(0,0,0,.3);
+}
+
+.auth-logo{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:25px;
+  font-weight:800;
+}
+
+.auth-logo .logo{
+  justify-content:center;
+}
+
+.logo-icon{
+  width:45px;
+  height:45px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+  border-radius:13px;
+  font-size:22px;
+}
+
+.auth-title{
+  margin-top:20px;
+  font-size:28px;
+}
+
+.auth-subtitle{
+  color:#6b7280;
+  margin-top:8px;
+  margin-bottom:25px;
+  line-height:1.5;
+}
+
+.form-group{
+  margin-bottom:17px;
+}
+
+.form-group label{
+  display:block;
+  font-size:14px;
+  font-weight:600;
+  margin-bottom:8px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;
+  padding:13px 15px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  outline:none;
+  transition:.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(99,102,241,.1);
+}
+
+.two-inputs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.primary-btn{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:10px;
+  color:white;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  font-weight:700;
+  transition:.2s;
+}
+
+.primary-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 20px rgba(99,102,241,.25);
+}
+
+.auth-switch{
+  text-align:center;
+  margin-top:20px;
+  font-size:13px;
+  color:#6b7280;
+}
+
+.auth-switch button{
+  border:0;
+  background:none;
+  color:var(--primary);
+  font-weight:700;
+}
+
+.demo-login{
+  margin-top:18px;
+  padding:15px;
+  background:#f8fafc;
+  border-radius:12px;
+  font-size:12px;
+  color:#6b7280;
+  line-height:1.7;
+}
+
+.error-message{
+  background:#fee2e2;
+  color:#b91c1c;
+  border:1px solid #fecaca;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:15px;
+  font-size:13px;
+}
+
+.success-message{
+  background:#dcfce7;
+  color:#166534;
+  border:1px solid #bbf7d0;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:15px;
+  font-size:13px;
+}
+
+
+/* =========================================================
+   APP SHELL
+========================================================= */
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+.sidebar{
+  width:260px;
+  background:var(--sidebar);
+  color:white;
+  min-height:100vh;
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  z-index:100;
+}
+
+.sidebar-header{
+  height:75px;
+  display:flex;
+  align-items:center;
+  padding:0 22px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar .logo{
+  font-size:20px;
+}
+
+.sidebar .logo-icon{
+  width:38px;
+  height:38px;
+  font-size:18px;
+}
+
+.nav{
+  padding:20px 12px;
+  overflow-y:auto;
+  height:calc(100vh - 145px);
+}
+
+.nav-section{
+  color:#6b7280;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  padding:15px 12px 8px;
+}
+
+.nav-item{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#cbd5e1;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:4px;
+  text-align:left;
+  transition:.2s;
+}
+
+.nav-item:hover,
+.nav-item.active{
+  background:rgba(99,102,241,.2);
+  color:white;
+}
+
+.nav-icon{
+  width:22px;
+  text-align:center;
+}
+
+.user-mini{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:18px;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  font-weight:700;
+  overflow:hidden;
+}
+
+.avatar img,
+.profile-top-avatar img,
+.profile-big-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.user-mini-name{
+  font-size:13px;
+  font-weight:600;
+}
+
+.user-mini-role{
+  font-size:11px;
+  color:#94a3b8;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.main{
+  margin-left:260px;
+  width:calc(100% - 260px);
+}
+
+.topbar{
+  height:75px;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.topbar-title{
+  font-size:20px;
+  font-weight:700;
+}
+
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.icon-btn:hover{
+  background:var(--hover);
+}
+
+.notification-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--danger);
+  position:absolute;
+  right:8px;
+  top:8px;
+}
+
+.profile-top-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  padding:5px 10px 5px 5px;
+  border-radius:30px;
+}
+
+.profile-top-avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  font-size:12px;
+  font-weight:700;
+}
+
+.content{
+  padding:30px;
+  max-width:1500px;
+  margin:auto;
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.welcome{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.welcome h1{
+  font-size:28px;
+}
+
+.welcome p{
+  color:var(--muted);
+  margin-top:6px;
+}
+
+.ask-btn{
+  padding:12px 18px;
+  border:0;
+  border-radius:10px;
+  color:white;
+  background:var(--primary);
+  font-weight:700;
+  transition:.2s;
+}
+
+.ask-btn:hover{
+  opacity:.9;
+  transform:translateY(-1px);
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:25px;
+}
+
+.stat-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+}
+
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.stat-icon{
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#eef2ff;
+  color:var(--primary);
+  font-size:20px;
+}
+
+.stat-number{
+  font-size:28px;
+  font-weight:800;
+  margin-top:15px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.stat-change{
+  color:var(--success);
+  font-size:12px;
+  margin-top:6px;
+}
+
+.two-column{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:20px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:22px;
+}
+
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.card-title{
+  font-size:17px;
+  font-weight:700;
+}
+
+.view-all{
+  color:var(--primary);
+  font-size:13px;
+  font-weight:600;
+  border:0;
+  background:none;
+}
+
+
+/* =========================================================
+   QUESTION CARD
+========================================================= */
+
+.question-card{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:14px;
+  transition:.2s;
+  background:var(--card);
+}
+
+.question-card:hover{
+  border-color:#c7d2fe;
+  box-shadow:0 5px 20px rgba(0,0,0,.04);
+}
+
+.question-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.question-user{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.small-avatar{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#e0e7ff;
+  color:var(--primary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:700;
+}
+
+.question-user small{
+  display:block;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.badge{
+  padding:5px 9px;
+  border-radius:20px;
+  background:#eef2ff;
+  color:var(--primary);
+  font-size:11px;
+  font-weight:700;
+}
+
+.question-title{
+  font-size:16px;
+  font-weight:700;
+  margin:14px 0 7px;
+}
+
+.question-text{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
+}
+
+.question-tags{
+  margin-top:8px;
+  font-size:11px;
+  color:var(--primary);
+  font-weight:600;
+}
+
+.question-actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+  flex-wrap:wrap;
+}
+
+.action-btn{
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  padding:7px 11px;
+  border-radius:8px;
+  font-size:12px;
+}
+
+.action-btn:hover{
+  background:var(--hover);
+}
+
+.answer-count{
+  margin-left:auto;
+}
+
+
+/* =========================================================
+   ANSWERS
+========================================================= */
+
+.answer-form{
+  margin-top:14px;
+  padding:14px;
+  border:1px dashed #c7d2fe;
+  border-radius:12px;
+  background:var(--soft);
+}
+
+.answer-form strong{
+  font-size:13px;
+  color:var(--primary-dark);
+}
+
+.answer-form textarea{
+  width:100%;
+  resize:vertical;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  min-height:75px;
+  margin-top:8px;
+}
+
+.answer-form button{
+  margin-top:8px;
+  border:0;
+  background:var(--primary);
+  color:white;
+  padding:8px 15px;
+  border-radius:8px;
+  font-weight:700;
+  font-size:12px;
+}
+
+.answers-container{
+  margin-top:15px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.answer{
+  border-left:3px solid var(--primary);
+  padding:15px;
+  background:var(--soft);
+  border-radius:0 10px 10px 0;
+}
+
+.answer-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.senior-badge{
+  background:#dcfce7;
+  color:#15803d;
+  padding:4px 7px;
+  border-radius:10px;
+  font-size:10px;
+  font-weight:700;
+}
+
+.student-badge{
+  background:#e0e7ff;
+  color:var(--primary);
+  padding:4px 7px;
+  border-radius:10px;
+  font-size:10px;
+  font-weight:700;
+}
+
+.answer p{
+  font-size:13px;
+  line-height:1.6;
+  margin-top:8px;
+  color:var(--muted);
+}
+
+.reply-box{
+  margin-top:12px;
+  padding-left:18px;
+  border-left:2px solid #e2e8f0;
+}
+
+.reply-item{
+  padding:8px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.reply-item:last-child{
+  border-bottom:0;
+}
+
+.reply-author{
+  font-size:12px;
+  font-weight:700;
+}
+
+.reply-time{
+  font-size:10px;
+  color:var(--muted);
+  margin-left:6px;
+}
+
+.reply-text{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:4px;
+  line-height:1.5;
+}
+
+.reply-form{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+.reply-form input{
+  flex:1;
+  padding:8px 12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  outline:none;
+}
+
+.reply-form button{
+  border:0;
+  background:var(--primary);
+  color:white;
+  padding:8px 14px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:700;
+}
+
+
+/* =========================================================
+   SUBJECTS / SEARCH
+========================================================= */
+
+.subject-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.subject{
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+}
+
+.subject:hover{
+  background:var(--hover);
+}
+
+.subject-icon{
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#eef2ff;
+  border-radius:10px;
+}
+
+.subject-name{
+  font-size:13px;
+  font-weight:600;
+}
+
+.subject-count{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.search-bar{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.search-box{
+  flex:1;
+  position:relative;
+}
+
+.search-box input{
+  width:100%;
+  padding:13px 15px 13px 42px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  outline:none;
+}
+
+.search-icon{
+  position:absolute;
+  left:15px;
+  top:13px;
+}
+
+.filter{
+  padding:0 15px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--card);
+  color:var(--text);
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.profile-header{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  border-radius:18px;
+  padding:30px;
+  color:white;
+  display:flex;
+  align-items:center;
+  gap:22px;
+  margin-bottom:20px;
+}
+
+.profile-big-avatar{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:white;
+  color:var(--primary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:800;
+  overflow:hidden;
+  border:4px solid rgba(255,255,255,.7);
+  flex-shrink:0;
+}
+
+.profile-header h1{
+  font-size:28px;
+}
+
+.profile-header p{
+  margin-top:7px;
+  opacity:.9;
+}
+
+.profile-role{
+  display:inline-block;
+  margin-top:10px;
+  padding:6px 10px;
+  border-radius:20px;
+  background:rgba(255,255,255,.18);
+  font-size:12px;
+  font-weight:700;
+}
+
+.profile-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:20px;
+}
+
+.info-list{
+  display:grid;
+  gap:14px;
+}
+
+.info-item{
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--soft);
+}
+
+.info-label{
+  font-size:11px;
+  color:var(--muted);
+  text-transform:uppercase;
+  font-weight:700;
+}
+
+.info-value{
+  font-size:14px;
+  font-weight:600;
+  margin-top:5px;
+}
+
+.profile-stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.profile-stat{
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  text-align:center;
+}
+
+.profile-stat-number{
+  font-size:25px;
+  font-weight:800;
+}
+
+.profile-stat-label{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.edit-profile-btn{
+  background:white;
+  color:var(--primary);
+  border:0;
+  padding:11px 16px;
+  border-radius:9px;
+  font-weight:700;
+  margin-top:15px;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+  padding:20px;
+}
+
+.modal-box{
+  background:var(--card);
+  color:var(--text);
+  width:100%;
+  max-width:650px;
+  max-height:90vh;
+  overflow:auto;
+  border-radius:18px;
+  padding:25px;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.close-btn{
+  border:0;
+  background:var(--hover);
+  color:var(--text);
+  width:35px;
+  height:35px;
+  border-radius:8px;
+}
+
+
+/* =========================================================
+   TABS / TABLE
+========================================================= */
+
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:20px;
+  border-bottom:1px solid var(--border);
+}
+
+.tab{
+  padding:12px 15px;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-weight:600;
+  border-bottom:2px solid transparent;
+}
+
+.tab.active{
+  color:var(--primary);
+  border-color:var(--primary);
+}
+
+.table-container{
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,
+td{
+  padding:13px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+
+th{
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+}
+
+
+/* =========================================================
+   AI AREA
+========================================================= */
+
+.ai-box{
+  background:linear-gradient(135deg,#eef2ff,#faf5ff);
+  border:1px solid #ddd6fe;
+  border-radius:16px;
+  padding:20px;
+}
+
+.ai-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.ai-icon{
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.ai-input{
+  margin-top:15px;
+  display:flex;
+  gap:10px;
+}
+
+.ai-input input{
+  flex:1;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  outline:none;
+}
+
+.ai-input button{
+  border:0;
+  background:var(--primary);
+  color:white;
+  padding:0 18px;
+  border-radius:10px;
+}
+
+.ai-chat{
+  max-height:500px;
+  overflow-y:auto;
+  padding:5px;
+}
+
+.ai-message{
+  padding:14px;
+  border-radius:13px;
+  margin-bottom:12px;
+  line-height:1.6;
+  font-size:13px;
+}
+
+.ai-user{
+  background:#eef2ff;
+  margin-left:15%;
+}
+
+.ai-bot{
+  background:var(--soft);
+  border-left:3px solid var(--primary);
+  margin-right:10%;
+}
+
+.ai-message strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.ai-thinking{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  color:var(--muted);
+}
+
+.ai-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--primary);
+  animation:typing 1s infinite;
+}
+
+.ai-dot:nth-child(2){
+  animation-delay:.15s;
+}
+
+.ai-dot:nth-child(3){
+  animation-delay:.3s;
+}
+
+@keyframes typing{
+  0%,100%{opacity:.2}
+  50%{opacity:1}
+}
+
+
+/* =========================================================
+   RESOURCE SHARING
+========================================================= */
+
+.resource-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.resource-card{
+  border:1px solid var(--border);
+  background:var(--card);
+  border-radius:15px;
+  padding:18px;
+  transition:.2s;
+  position:relative;
+}
+
+.resource-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(0,0,0,.07);
+}
+
+.resource-icon{
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  background:#eef2ff;
+  color:var(--primary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  margin-bottom:12px;
+}
+
+.resource-title{
+  font-size:15px;
+  font-weight:700;
+}
+
+.resource-description{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  margin-top:7px;
+  min-height:40px;
+}
+
+.resource-meta{
+  display:flex;
+  justify-content:space-between;
+  margin-top:14px;
+  font-size:10px;
+  color:var(--muted);
+}
+
+.resource-actions{
+  display:flex;
+  gap:7px;
+  margin-top:14px;
+}
+
+.resource-btn{
+  flex:1;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  padding:8px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.resource-btn.primary{
+  background:var(--primary);
+  color:white;
+  border-color:var(--primary);
+}
+
+.resource-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.resource-form{
+  background:var(--soft);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.resource-search{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.resource-search input{
+  flex:1;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+}
+
+
+/* =========================================================
+   THEME CUSTOMIZATION
+========================================================= */
+
+.theme-options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:15px;
+}
+
+.theme-card{
+  border:2px solid var(--border);
+  border-radius:15px;
+  padding:20px;
+  text-align:center;
+  cursor:pointer;
+  background:var(--card);
+  transition:.2s;
+}
+
+.theme-card:hover{
+  border-color:var(--primary);
+  transform:translateY(-2px);
+}
+
+.theme-card.active{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(99,102,241,.12);
+}
+
+.theme-preview{
+  height:70px;
+  border-radius:10px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+}
+
+.light-preview{
+  background:#f5f7fb;
+  color:#111827;
+}
+
+.dark-preview{
+  background:#0f172a;
+  color:white;
+}
+
+.system-preview{
+  background:linear-gradient(90deg,#f5f7fb 50%,#0f172a 50%);
+  color:#6366f1;
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+.setting-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.setting-row:last-child{
+  border-bottom:0;
+}
+
+.setting-title{
+  font-weight:700;
+  font-size:14px;
+}
+
+.setting-description{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
+}
+
+.switch{
+  position:relative;
+  width:48px;
+  height:25px;
+}
+
+.switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  background:#cbd5e1;
+  border-radius:30px;
+  transition:.2s;
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  width:19px;
+  height:19px;
+  left:3px;
+  top:3px;
+  background:white;
+  border-radius:50%;
+  transition:.2s;
+}
+
+.switch input:checked + .slider{
+  background:var(--primary);
+}
+
+.switch input:checked + .slider:before{
+  transform:translateX(23px);
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast-container{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:3000;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.toast{
+  min-width:280px;
+  max-width:360px;
+  background:#111827;
+  color:white;
+  padding:14px 16px;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  animation:toastIn .3s ease;
+  font-size:13px;
+}
+
+.toast.success{
+  border-left:4px solid var(--success);
+}
+
+.toast.error{
+  border-left:4px solid var(--danger);
+}
+
+.toast.info{
+  border-left:4px solid var(--info);
+}
+
+@keyframes toastIn{
+  from{
+    transform:translateX(100px);
+    opacity:0;
+  }
+  to{
+    transform:translateX(0);
+    opacity:1;
+  }
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state{
+  text-align:center;
+  padding:45px 20px;
+  color:var(--muted);
+}
+
+.empty-icon{
+  font-size:45px;
+  margin-bottom:10px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+.mobile-menu{
+  display:none;
+}
+
+@media(max-width:1100px){
+
+  .sidebar{
+    width:220px;
+  }
+
+  .main{
+    margin-left:220px;
+    width:calc(100% - 220px);
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .two-column,
+  .profile-grid{
+    grid-template-columns:1fr;
+  }
+
+  .resource-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:700px){
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.3s;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+
+  .mobile-menu{
+    display:flex;
+  }
+
+  .content{
+    padding:18px;
+  }
+
+  .topbar{
+    padding:0 18px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+  .welcome{
+    align-items:flex-start;
+    gap:15px;
+    flex-direction:column;
+  }
+
+  .subject-grid{
+    grid-template-columns:1fr;
+  }
+
+  .auth-card{
+    padding:25px;
+  }
+
+  .two-inputs{
+    grid-template-columns:1fr;
+  }
+
+  .profile-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .profile-header h1{
+    font-size:23px;
+  }
+
+  .profile-big-avatar{
+    width:80px;
+    height:80px;
+  }
+
+  .profile-stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .profile-top-btn span{
+    display:none;
+  }
+
+  .search-bar{
+    flex-direction:column;
+  }
+
+  .resource-grid{
+    grid-template-columns:1fr;
+  }
+
+  .resource-search{
+    flex-direction:column;
+  }
+
+  .theme-options{
+    grid-template-columns:1fr;
+  }
+
+  .ai-user,
+  .ai-bot{
+    margin-left:0;
+    margin-right:0;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =========================================================
+     LOGIN SCREEN
+========================================================= -->
+
+<div id="loginScreen" class="auth-container">
+
+  <div class="auth-card">
+
+    <div class="auth-logo">
+
+      <div class="logo">
+
+        <div class="logo-icon">P</div>
+
+        PeerSolve
+
+      </div>
+
+    </div>
+
+    <h1 class="auth-title">Welcome Back 👋</h1>
+
+    <p class="auth-subtitle">
+      Login to continue learning and solving doubts with your community.
+    </p>
+
+    <div id="loginMessage"></div>
+
+    <div class="form-group">
+
+      <label>Email</label>
+
+      <input
+        id="loginEmail"
+        type="email"
+        placeholder="Enter your registered email"
+      >
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Password</label>
+
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Enter your password"
+      >
+
+    </div>
+
+    <button
+      class="primary-btn"
+      onclick="loginUser()"
+    >
+      Login to PeerSolve
+    </button>
+
+    <div class="auth-switch">
+
+      Don't have an account?
+
+      <button onclick="showRegister()">
+        Create Account
+      </button>
+
+    </div>
+
+    <div class="demo-login">
+
+      <strong>Demo Accounts</strong><br>
+
+      Student: student@peersolve.com<br>
+      Password: student123
+
+      <br><br>
+
+      Senior: senior@peersolve.com<br>
+      Password: senior123
+
+      <br><br>
+
+      You can also create customized accounts using
+      <strong>Create Account</strong>.
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     REGISTRATION SCREEN
+========================================================= -->
+
+<div id="registerScreen" class="auth-container hidden">
+
+  <div class="auth-card">
+
+    <div class="auth-logo">
+
+      <div class="logo">
+
+        <div class="logo-icon">P</div>
+
+        PeerSolve
+
+      </div>
+
+    </div>
+
+    <h1 class="auth-title">
+      Create Your Account 🚀
+    </h1>
+
+    <p class="auth-subtitle">
+      Join PeerSolve and learn with students and seniors.
+    </p>
+
+    <div id="registerMessage"></div>
+
+    <div class="form-group">
+
+      <label>Full Name *</label>
+
+      <input
+        id="registerName"
+        type="text"
+        placeholder="Enter your full name"
+      >
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Email *</label>
+
+      <input
+        id="registerEmail"
+        type="email"
+        placeholder="example@gmail.com"
+      >
+
+    </div>
+
+    <div class="two-inputs">
+
+      <div class="form-group">
+
+        <label>Password *</label>
+
+        <input
+          id="registerPassword"
+          type="password"
+          placeholder="Minimum 6 characters"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Confirm Password *</label>
+
+        <input
+          id="registerConfirmPassword"
+          type="password"
+          placeholder="Confirm password"
+        >
+
+      </div>
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Register As *</label>
+
+      <select id="registerRole">
+
+        <option value="student">
+          Student
+        </option>
+
+        <option value="senior">
+          Senior
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="two-inputs">
+
+      <div class="form-group">
+
+        <label>College Name *</label>
+
+        <input
+          id="registerCollege"
+          type="text"
+          placeholder="Your college"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Branch *</label>
+
+        <input
+          id="registerBranch"
+          type="text"
+          placeholder="CSE AIML"
+        >
+
+      </div>
+
+    </div>
+
+    <div class="two-inputs">
+
+      <div class="form-group">
+
+        <label>Year</label>
+
+        <select id="registerYear">
+
+          <option>1st Year</option>
+          <option>2nd Year</option>
+          <option>3rd Year</option>
+          <option>4th Year</option>
+
+        </select>
+
+      </div>
+
+      <div class="form-group">
+
+        <label>Profile Photo</label>
+
+        <input
+          id="registerPhoto"
+          type="file"
+          accept="image/*"
+        >
+
+      </div>
+
+    </div>
+
+    <button
+      class="primary-btn"
+      onclick="registerUser()"
+    >
+      Create My Account
+    </button>
+
+    <div class="auth-switch">
+
+      Already have an account?
+
+      <button onclick="showLogin()">
+        Login
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     APPLICATION
+========================================================= -->
+
+<div id="app" class="app hidden">
+
+
+  <!-- SIDEBAR -->
+
+  <aside id="sidebar" class="sidebar">
+
+    <div class="sidebar-header">
+
+      <div class="logo">
+
+        <div class="logo-icon">
+          P
+        </div>
+
+        PeerSolve
+
+      </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+      <div class="nav-section">
+        Main
+      </div>
+
+      <button
+        class="nav-item active"
+        onclick="showPage('dashboard',this)"
+      >
+        <span class="nav-icon">🏠</span>
+        Dashboard
+      </button>
+
+      <button
+        class="nav-item"
+        onclick="showPage('ask',this)"
+      >
+        <span class="nav-icon">❓</span>
+        Ask Doubt
+      </button>
+
+      <button
+        class="nav-item"
+        onclick="showPage('questions',this)"
+      >
+        <span class="nav-icon">📚</span>
+        Browse Doubts
+      </button>
+
+      <button
+        class="nav-item"
+        onclick="showPage('mydoubts',this)"
+      >
+        <span class="nav-icon">📝</span>
+        My Doubts
+      </button>
+
+
+      <div class="nav-section">
+        Community
+      </div>
+
+      <button
+        class="nav-item"
+        onclick="showPage('leaderboard',this)"
+      >
+        <span class="nav-icon">🏆</span>
+        Leaderboard
+      </button>
+
+      <button
+        class="nav-item"
+        onclick="showPage('ai',this)"
+      >
+        <span class="nav-icon">🤖</span>
+        AI Assistant
+      </button>
+
+      <button
+        class="nav-item"
+        onclick="showPage('resources',this)"
+      >
+        <span class="nav-icon">📚</span>
+        Resources
+      </button>
+
+      <button
+        class="nav-item"
+        onclick="showPage('profile',this)"
+      >
+        <span class="nav-icon">👤</span>
+        My Profile
+      </button>
+
+
+      <div id="seniorNavigation" class="hidden">
+
+        <div class="nav-section">
+          Senior
+        </div>
+
+        <button
+          class="nav-item"
+          onclick="showPage('requests',this)"
+        >
+          <span class="nav-icon">📩</span>
+          Answer Requests
+        </button>
+
+        <button
+          class="nav-item"
+          onclick="showPage('seniorStats',this)"
+        >
+          <span class="nav-icon">📊</span>
+          My Statistics
+        </button>
+
+      </div>
+
+
+      <div id="adminNavigation" class="hidden">
+
+        <div class="nav-section">
+          Administration
+        </div>
+
+        <button
+          class="nav-item"
+          onclick="showPage('users',this)"
+        >
+          <span class="nav-icon">👥</span>
+          Users
+        </button>
+
+        <button
+          class="nav-item"
+          onclick="showPage('reports',this)"
+        >
+          <span class="nav-icon">🚨</span>
+          Reports
+        </button>
+
+        <button
+          class="nav-item"
+          onclick="showPage('analytics',this)"
+        >
+          <span class="nav-icon">📈</span>
+          Analytics
+        </button>
+
+      </div>
+
+
+      <div class="nav-section">
+        System
+      </div>
+
+      <button
+        class="nav-item"
+        onclick="showPage('settings',this)"
+      >
+        <span class="nav-icon">⚙️</span>
+        Settings
+      </button>
+
+    </nav>
+
+
+    <div class="user-mini">
+
+      <div
+        class="avatar"
+        id="sidebarAvatar"
+      >
+        PB
+      </div>
+
+      <div>
+
+        <div
+          class="user-mini-name"
+          id="sidebarName"
+        >
+          User
+        </div>
+
+        <div
+          class="user-mini-role"
+          id="sidebarRole"
+        >
+          Student
+        </div>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div
+        style="display:flex;align-items:center;gap:12px"
+      >
+
+        <button
+          class="icon-btn mobile-menu"
+          onclick="toggleSidebar()"
+        >
+          ☰
+        </button>
+
+        <div
+          class="topbar-title"
+          id="pageTitle"
+        >
+          Dashboard
+        </div>
+
+      </div>
+
+
+      <div class="topbar-right">
+
+        <!-- THEME BUTTON -->
+
+        <button
+          class="icon-btn"
+          onclick="cycleTheme()"
+          title="Change theme"
+          id="themeTopButton"
+        >
+          🌙
+        </button>
+
+
+        <button
+          class="icon-btn"
+          onclick="showNotifications()"
+        >
+          🔔
+          <span class="notification-dot"></span>
+        </button>
+
+
+        <button
+          class="profile-top-btn"
+          onclick="showPageById('profile')"
+        >
+
+          <div
+            class="profile-top-avatar"
+            id="topProfileAvatar"
+          >
+            U
+          </div>
+
+          <span id="topProfileName">
+            Profile
+          </span>
+
+        </button>
+
+
+        <button
+          class="icon-btn"
+          onclick="logout()"
+        >
+          🚪
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <div class="content">
+
+
+      <!-- =====================================================
+           DASHBOARD
+      ===================================================== -->
+
+      <section
+        id="dashboardPage"
+        class="page"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1 id="welcomeTitle">
+              Welcome 👋
+            </h1>
+
+            <p>
+              Ask questions, share knowledge and learn together.
+            </p>
+
+          </div>
+
+          <button
+            class="ask-btn"
+            onclick="showPageById('ask')"
+          >
+            + Ask a Doubt
+          </button>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+
+                <div class="stat-label">
+                  Questions Asked
+                </div>
+
+                <div
+                  class="stat-number"
+                  id="statQuestions"
+                >
+                  0
+                </div>
+
+                <div class="stat-change">
+                  Your posted doubts
+                </div>
+
+              </div>
+
+              <div class="stat-icon">
+                ❓
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+
+                <div class="stat-label">
+                  Questions Solved
+                </div>
+
+                <div
+                  class="stat-number"
+                  id="statSolved"
+                >
+                  0
+                </div>
+
+                <div class="stat-change">
+                  Answered questions
+                </div>
+
+              </div>
+
+              <div class="stat-icon">
+                ✓
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+
+                <div class="stat-label">
+                  Answers Given
+                </div>
+
+                <div
+                  class="stat-number"
+                  id="statAnswers"
+                >
+                  0
+                </div>
+
+                <div class="stat-change">
+                  Community contribution
+                </div>
+
+              </div>
+
+              <div class="stat-icon">
+                💡
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-top">
+
+              <div>
+
+                <div class="stat-label">
+                  Reputation
+                </div>
+
+                <div
+                  class="stat-number"
+                  id="statReputation"
+                >
+                  0
+                </div>
+
+                <div class="stat-change">
+                  Earned points
+                </div>
+
+              </div>
+
+              <div class="stat-icon">
+                ⭐
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="two-column">
+
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+                Recent Doubts
+              </div>
+
+              <button
+                class="view-all"
+                onclick="showPageById('questions')"
+              >
+                View All
+              </button>
+
+            </div>
+
+            <div id="recentQuestions"></div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+                Popular Subjects
+              </div>
+
+            </div>
+
+
+            <div class="subject-grid">
+
+              <div
+                class="subject"
+                onclick="filterSubject('Data Structures')"
+              >
+
+                <div class="subject-icon">
+                  💻
+                </div>
+
+                <div>
+
+                  <div class="subject-name">
+                    Data Structures
+                  </div>
+
+                  <div class="subject-count">
+                    Active Doubts
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="subject"
+                onclick="filterSubject('DBMS')"
+              >
+
+                <div class="subject-icon">
+                  🗄️
+                </div>
+
+                <div>
+
+                  <div class="subject-name">
+                    DBMS
+                  </div>
+
+                  <div class="subject-count">
+                    Active Doubts
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="subject"
+                onclick="filterSubject('Python')"
+              >
+
+                <div class="subject-icon">
+                  🐍
+                </div>
+
+                <div>
+
+                  <div class="subject-name">
+                    Python
+                  </div>
+
+                  <div class="subject-count">
+                    Active Doubts
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="subject"
+                onclick="filterSubject('AI/ML')"
+              >
+
+                <div class="subject-icon">
+                  🤖
+                </div>
+
+                <div>
+
+                  <div class="subject-name">
+                    AI / ML
+                  </div>
+
+                  <div class="subject-count">
+                    Active Doubts
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="subject"
+                onclick="filterSubject('Operating System')"
+              >
+
+                <div class="subject-icon">
+                  ⚙️
+                </div>
+
+                <div>
+
+                  <div class="subject-name">
+                    Operating System
+                  </div>
+
+                  <div class="subject-count">
+                    Active Doubts
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="subject"
+                onclick="filterSubject('Computer Networks')"
+              >
+
+                <div class="subject-icon">
+                  🌐
+                </div>
+
+                <div>
+
+                  <div class="subject-name">
+                    Computer Networks
+                  </div>
+
+                  <div class="subject-count">
+                    Active Doubts
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <br>
+
+
+        <!-- QUICK AI -->
+
+        <div class="ai-box">
+
+          <div class="ai-header">
+
+            <div class="ai-icon">
+              🤖
+            </div>
+
+            <div>
+
+              <h3>
+                Need instant help?
+              </h3>
+
+              <p
+                style="font-size:12px;color:#64748b"
+              >
+                Ask our AI Agent before posting your doubt.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="ai-input">
+
+            <input
+              id="quickAI"
+              placeholder="Ask something like: Explain binary search..."
+            >
+
+            <button onclick="quickAI()">
+              Ask AI
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           ASK DOUBT
+      ===================================================== -->
+
+      <section
+        id="askPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              Ask a Doubt
+            </h1>
+
+            <p>
+              Your question will be stored permanently and visible to registered users.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="form-group">
+
+            <label>
+              Question Title *
+            </label>
+
+            <input
+              id="questionTitle"
+              placeholder="Example: How does binary search work?"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Subject *
+            </label>
+
+            <select id="questionSubject">
+
+              <option value="">
+                Select Subject
+              </option>
+
+              <option>
+                Data Structures
+              </option>
+
+              <option>
+                DBMS
+              </option>
+
+              <option>
+                Python
+              </option>
+
+              <option>
+                Java
+              </option>
+
+              <option>
+                AI/ML
+              </option>
+
+              <option>
+                Operating System
+              </option>
+
+              <option>
+                Computer Networks
+              </option>
+
+              <option>
+                Mathematics
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Explain Your Doubt *
+            </label>
+
+            <textarea
+              id="questionDescription"
+              rows="7"
+              placeholder="Explain your question in detail..."
+            ></textarea>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Tags
+            </label>
+
+            <input
+              id="questionTags"
+              placeholder="array, binary-search, algorithm"
+            >
+
+          </div>
+
+
+          <button
+            class="ask-btn"
+            onclick="postQuestion()"
+          >
+            🚀 Post Doubt
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           BROWSE DOUBTS
+      ===================================================== -->
+
+      <section
+        id="questionsPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              Browse Doubts
+            </h1>
+
+            <p>
+              Find questions, write answers, or reply to existing solutions.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="search-bar">
+
+          <div class="search-box">
+
+            <span class="search-icon">
+              🔍
+            </span>
+
+            <input
+              id="searchInput"
+              oninput="renderQuestions()"
+              placeholder="Search questions..."
+            >
+
+          </div>
+
+
+          <select
+            id="subjectFilter"
+            class="filter"
+            onchange="renderQuestions()"
+          >
+
+            <option value="">
+              All Subjects
+            </option>
+
+            <option>
+              Data Structures
+            </option>
+
+            <option>
+              DBMS
+            </option>
+
+            <option>
+              Python
+            </option>
+
+            <option>
+              Java
+            </option>
+
+            <option>
+              AI/ML
+            </option>
+
+            <option>
+              Operating System
+            </option>
+
+            <option>
+              Computer Networks
+            </option>
+
+            <option>
+              Mathematics
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="tabs">
+
+            <button
+              class="tab active"
+              onclick="changeTab(this,'all')"
+            >
+              All
+            </button>
+
+            <button
+              class="tab"
+              onclick="changeTab(this,'unanswered')"
+            >
+              Unanswered
+            </button>
+
+            <button
+              class="tab"
+              onclick="changeTab(this,'answered')"
+            >
+              Answered
+            </button>
+
+          </div>
+
+          <div id="questionsList"></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           MY DOUBTS
+      ===================================================== -->
+
+      <section
+        id="mydoubtsPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              My Doubts
+            </h1>
+
+            <p>
+              Track doubts posted by you, view answers, and follow replies.
+            </p>
+
+          </div>
+
+          <button
+            class="ask-btn"
+            onclick="showPageById('ask')"
+          >
+            + Ask Doubt
+          </button>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Total Posted
+            </div>
+
+            <div
+              class="stat-number"
+              id="myTotal"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Answered
+            </div>
+
+            <div
+              class="stat-number"
+              id="myAnswered"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Unanswered
+            </div>
+
+            <div
+              class="stat-number"
+              id="myUnanswered"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Total Answers Received
+            </div>
+
+            <div
+              class="stat-number"
+              id="myAnswerCount"
+            >
+              0
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div id="myQuestions"></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           LEADERBOARD
+      ===================================================== -->
+
+      <section
+        id="leaderboardPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              🏆 Community Leaderboard
+            </h1>
+
+            <p>
+              Top members ranked dynamically from answers and helpful upvotes.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="table-container">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Rank
+                  </th>
+
+                  <th>
+                    User
+                  </th>
+
+                  <th>
+                    Role
+                  </th>
+
+                  <th>
+                    Answers Given
+                  </th>
+
+                  <th>
+                    Helpful
+                  </th>
+
+                  <th>
+                    Reputation
+                  </th>
+
+                </tr>
+
+              </thead>
+
+              <tbody id="leaderboardTable"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           AI AGENT
+      ===================================================== -->
+
+      <section
+        id="aiPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              🤖 PeerSolve AI Agent
+            </h1>
+
+            <p>
+              Ask academic questions and get instant conceptual guidance.
+            </p>
+
+          </div>
+
+          <button
+            class="ask-btn"
+            onclick="clearAIChat()"
+          >
+            🗑 Clear Chat
+          </button>
+
+        </div>
+
+
+        <div class="card">
+
+          <div
+            class="ai-box"
+            style="margin-bottom:18px"
+          >
+
+            <div class="ai-header">
+
+              <div class="ai-icon">
+                🧠
+              </div>
+
+              <div>
+
+                <h3>
+                  Academic AI Agent
+                </h3>
+
+                <p
+                  style="font-size:12px;color:#64748b"
+                >
+                  Try: binary search, DBMS normalization, Python list vs tuple, OS, networking, AI/ML
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="aiConversation"
+            class="ai-chat"
+          >
+
+            <div class="ai-message ai-bot">
+
+              <strong>
+                🤖 PeerSolve AI
+              </strong>
+
+              Hello! I'm your academic AI agent.
+
+              <br><br>
+
+              You can ask me about:
+
+              <br>
+              • Data Structures
+              <br>
+              • DBMS
+              <br>
+              • Python
+              <br>
+              • Java
+              <br>
+              • Operating Systems
+              <br>
+              • Computer Networks
+              <br>
+              • AI / ML
+              <br>
+              • Mathematics
+
+            </div>
+
+          </div>
+
+
+          <div class="ai-input">
+
+            <input
+              id="aiInput"
+              placeholder="Ask your academic question..."
+              onkeydown="if(event.key==='Enter') askAI()"
+            >
+
+            <button onclick="askAI()">
+              Send 🚀
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           RESOURCES
+      ===================================================== -->
+
+      <section
+        id="resourcesPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              📚 Resource Sharing
+            </h1>
+
+            <p>
+              Share useful notes, tutorials, documentation and study links.
+            </p>
+
+          </div>
+
+          <button
+            class="ask-btn"
+            onclick="toggleResourceForm()"
+          >
+            + Share Resource
+          </button>
+
+        </div>
+
+
+        <div
+          id="resourceForm"
+          class="resource-form hidden"
+        >
+
+          <div class="card-header">
+
+            <div class="card-title">
+              📤 Share a Learning Resource
+            </div>
+
+            <button
+              class="close-btn"
+              onclick="toggleResourceForm()"
+            >
+              ✕
+            </button>
+
+          </div>
+
+
+          <div class="two-inputs">
+
+            <div class="form-group">
+
+              <label>
+                Resource Title *
+              </label>
+
+              <input
+                id="resourceTitle"
+                placeholder="Example: Data Structures Notes"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>
+                Subject *
+              </label>
+
+              <select id="resourceSubject">
+
+                <option value="">
+                  Select Subject
+                </option>
+
+                <option>
+                  Data Structures
+                </option>
+
+                <option>
+                  DBMS
+                </option>
+
+                <option>
+                  Python
+                </option>
+
+                <option>
+                  Java
+                </option>
+
+                <option>
+                  AI/ML
+                </option>
+
+                <option>
+                  Operating System
+                </option>
+
+                <option>
+                  Computer Networks
+                </option>
+
+                <option>
+                  Mathematics
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Resource Link *
+            </label>
+
+            <input
+              id="resourceLink"
+              type="url"
+              placeholder="https://example.com/notes"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Description
+            </label>
+
+            <textarea
+              id="resourceDescription"
+              rows="4"
+              placeholder="Explain what this resource contains..."
+            ></textarea>
+
+          </div>
+
+
+          <button
+            class="ask-btn"
+            onclick="shareResource()"
+          >
+            🚀 Publish Resource
+          </button>
+
+        </div>
+
+
+        <div class="resource-search">
+
+          <input
+            id="resourceSearch"
+            oninput="renderResources()"
+            placeholder="🔍 Search resources..."
+          >
+
+          <select
+            id="resourceFilter"
+            class="filter"
+            onchange="renderResources()"
+          >
+
+            <option value="">
+              All Subjects
+            </option>
+
+            <option>
+              Data Structures
+            </option>
+
+            <option>
+              DBMS
+            </option>
+
+            <option>
+              Python
+            </option>
+
+            <option>
+              Java
+            </option>
+
+            <option>
+              AI/ML
+            </option>
+
+            <option>
+              Operating System
+            </option>
+
+            <option>
+              Computer Networks
+            </option>
+
+            <option>
+              Mathematics
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div
+          id="resourceGrid"
+          class="resource-grid"
+        ></div>
+
+      </section>
+
+
+      <!-- =====================================================
+           PROFILE
+      ===================================================== -->
+
+      <section
+        id="profilePage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              👤 My Profile
+            </h1>
+
+            <p>
+              View and manage your PeerSolve platform identity.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="profile-header">
+
+          <div
+            class="profile-big-avatar"
+            id="profileBigAvatar"
+          >
+            U
+          </div>
+
+          <div style="flex:1">
+
+            <h1 id="profileName">
+              User
+            </h1>
+
+            <p id="profileEmail">
+              email@example.com
+            </p>
+
+            <span
+              class="profile-role"
+              id="profileRole"
+            >
+              Student
+            </span>
+
+            <br>
+
+            <button
+              class="edit-profile-btn"
+              onclick="openEditProfile()"
+            >
+              ✏️ Edit Profile
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="profile-grid">
+
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+                Personal Information
+              </div>
+
+            </div>
+
+
+            <div class="info-list">
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Full Name
+                </div>
+
+                <div
+                  class="info-value"
+                  id="infoName"
+                >
+                  -
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Email
+                </div>
+
+                <div
+                  class="info-value"
+                  id="infoEmail"
+                >
+                  -
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  College
+                </div>
+
+                <div
+                  class="info-value"
+                  id="infoCollege"
+                >
+                  -
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Branch
+                </div>
+
+                <div
+                  class="info-value"
+                  id="infoBranch"
+                >
+                  -
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Academic Year
+                </div>
+
+                <div
+                  class="info-value"
+                  id="infoYear"
+                >
+                  -
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Account Type
+                </div>
+
+                <div
+                  class="info-value"
+                  id="infoRole"
+                >
+                  -
+                </div>
+
+              </div>
+
+
+              <div class="info-item">
+
+                <div class="info-label">
+                  Member Since
+                </div>
+
+                <div
+                  class="info-value"
+                  id="infoJoined"
+                >
+                  -
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <div class="card-title">
+                My Activity
+              </div>
+
+            </div>
+
+
+            <div class="profile-stats">
+
+              <div class="profile-stat">
+
+                <div
+                  class="profile-stat-number"
+                  id="profileQuestions"
+                >
+                  0
+                </div>
+
+                <div class="profile-stat-label">
+                  Questions
+                </div>
+
+              </div>
+
+
+              <div class="profile-stat">
+
+                <div
+                  class="profile-stat-number"
+                  id="profileAnswers"
+                >
+                  0
+                </div>
+
+                <div class="profile-stat-label">
+                  Answers
+                </div>
+
+              </div>
+
+
+              <div class="profile-stat">
+
+                <div
+                  class="profile-stat-number"
+                  id="profileReputation"
+                >
+                  0
+                </div>
+
+                <div class="profile-stat-label">
+                  Reputation
+                </div>
+
+              </div>
+
+
+              <div class="profile-stat">
+
+                <div
+                  class="profile-stat-number"
+                  id="profileHelpful"
+                >
+                  0
+                </div>
+
+                <div class="profile-stat-label">
+                  Helpful Votes
+                </div>
+
+              </div>
+
+            </div>
+
+            <br>
+
+            <button
+              class="primary-btn"
+              onclick="logout()"
+            >
+              🚪 Logout
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           SENIOR REQUESTS
+      ===================================================== -->
+
+      <section
+        id="requestsPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              📩 Answer Requests
+            </h1>
+
+            <p>
+              Students waiting for answers. Provide helpful responses to build reputation.
+            </p>
+
+          </div>
+
+        </div>
+
+        <div id="seniorRequestsContainer"></div>
+
+      </section>
+
+
+      <!-- =====================================================
+           SENIOR STATS
+      ===================================================== -->
+
+      <section
+        id="seniorStatsPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              📊 Senior Statistics
+            </h1>
+
+            <p>
+              Your contribution to the PeerSolve academic ecosystem.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Answers Given
+            </div>
+
+            <div
+              class="stat-number"
+              id="seniorAnswers"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Helpful Upvotes
+            </div>
+
+            <div
+              class="stat-number"
+              id="seniorHelpful"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Students Helped
+            </div>
+
+            <div
+              class="stat-number"
+              id="seniorStudents"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Reputation Points
+            </div>
+
+            <div
+              class="stat-number"
+              id="seniorRep"
+            >
+              0
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="two-column">
+
+          <div class="card">
+
+            <div class="card-title">
+              Answer Accuracy
+            </div>
+
+            <br>
+
+            <div
+              style="font-size:35px;font-weight:800;"
+            >
+              94%
+            </div>
+
+            <br>
+
+            <div class="progress">
+              <div
+                class="progress-bar"
+                style="width:94%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:10px;"
+              ></div>
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-title">
+              Response Rate
+            </div>
+
+            <br>
+
+            <div
+              style="font-size:35px;font-weight:800;"
+            >
+              88%
+            </div>
+
+            <br>
+
+            <div class="progress">
+              <div
+                class="progress-bar"
+                style="width:88%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:10px;"
+              ></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           USERS
+      ===================================================== -->
+
+      <section
+        id="usersPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              👥 User Management
+            </h1>
+
+            <p>
+              View registered students and seniors stored locally.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="table-container">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>College</th>
+                  <th>Branch</th>
+                  <th>Status</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody id="usersTable"></tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           REPORTS
+      ===================================================== -->
+
+      <section
+        id="reportsPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              🚨 Reports & Moderation
+            </h1>
+
+            <p>
+              Review and resolve reported inquiries.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="question-card">
+
+            <span
+              class="badge"
+              style="background:#fee2e2;color:#dc2626;"
+            >
+              Reported
+            </span>
+
+            <h3 class="question-title">
+              Inappropriate content reported
+            </h3>
+
+            <p class="question-text">
+              A question was flagged for non-academic content.
+            </p>
+
+            <div class="question-actions">
+
+              <button
+                class="action-btn"
+                onclick="resolveReport(this)"
+              >
+                ✓ Resolve
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           ANALYTICS
+      ===================================================== -->
+
+      <section
+        id="analyticsPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              📈 Platform Analytics
+            </h1>
+
+            <p>
+              Monitor real-time engagement and growth.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Total Users
+            </div>
+
+            <div
+              class="stat-number"
+              id="totalUsers"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Total Questions
+            </div>
+
+            <div
+              class="stat-number"
+              id="totalQuestions"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Total Answers
+            </div>
+
+            <div
+              class="stat-number"
+              id="totalAnswers"
+            >
+              0
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-label">
+              Active Seniors
+            </div>
+
+            <div
+              class="stat-number"
+              id="totalSeniors"
+            >
+              0
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           SETTINGS
+      ===================================================== -->
+
+      <section
+        id="settingsPage"
+        class="page hidden"
+      >
+
+        <div class="welcome">
+
+          <div>
+
+            <h1>
+              ⚙️ Customize PeerSolve
+            </h1>
+
+            <p>
+              Customize the appearance and behavior of your platform.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div class="card-title">
+              🎨 Theme
+            </div>
+
+          </div>
+
+
+          <p
+            style="color:var(--muted);font-size:13px;"
+          >
+            Choose how PeerSolve should look on your device.
+          </p>
+
+
+          <div class="theme-options">
+
+
+            <div
+              class="theme-card"
+              id="themeLight"
+              onclick="setTheme('light')"
+            >
+
+              <div class="theme-preview light-preview">
+                ☀️
+              </div>
+
+              <strong>
+                Light
+              </strong>
+
+              <p
+                style="font-size:11px;color:var(--muted);margin-top:5px;"
+              >
+                Clean bright interface
+              </p>
+
+            </div>
+
+
+            <div
+              class="theme-card"
+              id="themeDark"
+              onclick="setTheme('dark')"
+            >
+
+              <div class="theme-preview dark-preview">
+                🌙
+              </div>
+
+              <strong>
+                Dark
+              </strong>
+
+              <p
+                style="font-size:11px;color:var(--muted);margin-top:5px;"
+              >
+                Comfortable dark interface
+              </p>
+
+            </div>
+
+
+            <div
+              class="theme-card"
+              id="themeSystem"
+              onclick="setTheme('system')"
+            >
+
+              <div class="theme-preview system-preview">
+                🖥️
+              </div>
+
+              <strong>
+                System
+              </strong>
+
+              <p
+                style="font-size:11px;color:var(--muted);margin-top:5px;"
+              >
+                Follow device theme
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <br>
+
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div class="card-title">
+              🔔 Preferences
+            </div>
+
+          </div>
+
+
+          <div class="setting-row">
+
+            <div>
+
+              <div class="setting-title">
+                Notifications
+              </div>
+
+              <div class="setting-description">
+                Receive platform notifications.
+              </div>
+
+            </div>
+
+
+            <label class="switch">
+
+              <input
+                type="checkbox"
+                id="notificationSetting"
+                checked
+                onchange="saveSettings()"
+              >
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+
+          <div class="setting-row">
+
+            <div>
+
+              <div class="setting-title">
+                AI Suggestions
+              </div>
+
+              <div class="setting-description">
+                Show AI help suggestions while using PeerSolve.
+              </div>
+
+            </div>
+
+
+            <label class="switch">
+
+              <input
+                type="checkbox"
+                id="aiSetting"
+                checked
+                onchange="saveSettings()"
+              >
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <br>
+
+
+        <div class="card">
+
+          <div class="card-title">
+            💾 Local Data
+          </div>
+
+          <p
+            style="font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6;"
+          >
+            PeerSolve stores demo users, doubts, answers, resources and preferences
+            inside your browser's localStorage.
+          </p>
+
+          <br>
+
+          <button
+            class="action-btn"
+            onclick="exportPeerSolveData()"
+          >
+            📥 Export Data
+          </button>
+
+          <button
+            class="action-btn"
+            onclick="resetDemoData()"
+          >
+            ♻️ Reset Demo Data
+          </button>
+
+        </div>
+
+      </section>
+
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- =========================================================
+     EDIT PROFILE MODAL
+========================================================= -->
+
+<div
+  id="editProfileModal"
+  class="modal hidden"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2>
+        ✏️ Edit Profile
+      </h2>
+
+      <button
+        class="close-btn"
+        onclick="closeEditProfile()"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Full Name
+      </label>
+
+      <input
+        id="editName"
+        type="text"
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        College
+      </label>
+
+      <input
+        id="editCollege"
+        type="text"
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Branch
+      </label>
+
+      <input
+        id="editBranch"
+        type="text"
+      >
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Academic Year
+      </label>
+
+      <select id="editYear">
+
+        <option>
+          1st Year
+        </option>
+
+        <option>
+          2nd Year
+        </option>
+
+        <option>
+          3rd Year
+        </option>
+
+        <option>
+          4th Year
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Change Profile Photo
+      </label>
+
+      <input
+        id="editPhoto"
+        type="file"
+        accept="image/*"
+      >
+
+    </div>
+
+
+    <button
+      class="primary-btn"
+      onclick="saveProfile()"
+    >
+      Save Changes
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST CONTAINER
+========================================================= -->
+
+<div
+  id="toastContainer"
+  class="toast-container"
+></div>
+
+
+<script>
+
+/* =========================================================
+   SEED DATA
+========================================================= */
+
+const defaultUsers = [
+
+  {
+    id:1,
+    name:"Demo Student",
+    email:"student@peersolve.com",
+    password:"student123",
+    role:"student",
+    college:"P R Pote College of Engineering",
+    branch:"CSE AIML",
+    year:"1st Year",
+    photo:"",
+    joined:"September 2026"
+  },
+
+  {
+    id:2,
+    name:"Rahul Sharma",
+    email:"senior@peersolve.com",
+    password:"senior123",
+    role:"senior",
+    college:"P R Pote College of Engineering",
+    branch:"CSE",
+    year:"4th Year",
+    photo:"",
+    joined:"September 2026"
+  }
+
+];
+
+
+const defaultQuestions = [
+
+  {
+    id:1,
+    userId:1,
+    user:"Aarav",
+    userEmail:"aarav@example.com",
+    subject:"Data Structures",
+    title:"How does binary search work?",
+    text:"I understand linear search but I am confused about how binary search reduces the search space.",
+    tags:["array","binary-search","algorithm"],
+    votes:18,
+    createdAt:"10 min ago",
+
+    answers:[
+
+      {
+        id:101,
+        userId:2,
+        user:"Rahul Sharma",
+        userEmail:"senior@peersolve.com",
+        userRole:"senior",
+        text:"Binary search operates strictly on a sorted collection. It compares the search key with the array's median element and discards half of the array at each step, yielding O(log n) efficiency.",
+        votes:5,
+        createdAt:"8 min ago",
+
+        replies:[
+
+          {
+            id:1001,
+            user:"Aarav",
+            userEmail:"aarav@example.com",
+            text:"That helps a lot! Is it possible to implement it recursively as well?",
+            createdAt:"5 min ago"
+          }
+
+        ]
+
+      }
+
+    ]
+
+  },
+
+
+  {
+    id:2,
+    userId:1,
+    user:"Sneha",
+    userEmail:"sneha@example.com",
+    subject:"DBMS",
+    title:"What is normalization in DBMS?",
+    text:"Can someone explain 1NF, 2NF and 3NF with a simple real-world example?",
+    tags:["dbms","database","normalization"],
+    votes:12,
+    createdAt:"25 min ago",
+    answers:[]
+  },
+
+
+  {
+    id:3,
+    userId:1,
+    user:"Demo Student",
+    userEmail:"student@peersolve.com",
+    subject:"Python",
+    title:"Difference between list and tuple?",
+    text:"When should I prefer an immutable tuple over a mutable list in Python?",
+    tags:["python","tuples","list"],
+    votes:5,
+    createdAt:"40 min ago",
+    answers:[]
+  }
+
+];
+
+
+const defaultResources = [
+
+  {
+    id:1,
+    userId:2,
+    title:"Data Structures Complete Notes",
+    subject:"Data Structures",
+    link:"https://www.geeksforgeeks.org/data-structures/",
+    description:"Useful explanations and examples for arrays, stacks, queues, trees and graphs.",
+    createdBy:"Rahul Sharma",
+    createdAt:"September 2026"
+  },
+
+  {
+    id:2,
+    userId:2,
+    title:"Python Documentation",
+    subject:"Python",
+    link:"https://docs.python.org/3/",
+    description:"Official Python documentation for learning syntax, modules and programming concepts.",
+    createdBy:"Rahul Sharma",
+    createdAt:"September 2026"
+  },
+
+  {
+    id:3,
+    userId:1,
+    title:"DBMS Learning Resource",
+    subject:"DBMS",
+    link:"https://www.geeksforgeeks.org/dbms/",
+    description:"Database concepts including SQL, normalization, keys and transactions.",
+    createdBy:"Demo Student",
+    createdAt:"September 2026"
+  },
+
+  {
+    id:4,
+    userId:2,
+    title:"Machine Learning Guide",
+    subject:"AI/ML",
+    link:"https://www.geeksforgeeks.org/machine-learning/",
+    description:"Beginner-friendly machine learning concepts and algorithms.",
+    createdBy:"Rahul Sharma",
+    createdAt:"September 2026"
+  }
+
+];
+
+
+/* =========================================================
+   LOCAL STORAGE INITIALIZATION
+========================================================= */
+
+if(!localStorage.getItem("peerSolveUsers")){
+  localStorage.setItem(
+    "peerSolveUsers",
+    JSON.stringify(defaultUsers)
+  );
+}
+
+if(!localStorage.getItem("peerSolveQuestions")){
+  localStorage.setItem(
+    "peerSolveQuestions",
+    JSON.stringify(defaultQuestions)
+  );
+}
+
+if(!localStorage.getItem("peerSolveResources")){
+  localStorage.setItem(
+    "peerSolveResources",
+    JSON.stringify(defaultResources)
+  );
+}
+
+
+/* =========================================================
+   GLOBAL VARIABLES
+========================================================= */
+
+let currentUser = null;
+
+let currentRole = "student";
+
+let currentTab = "all";
+
+
+/* =========================================================
+   STORAGE FUNCTIONS
+========================================================= */
+
+function getUsers(){
+
+  return JSON.parse(
+    localStorage.getItem("peerSolveUsers") || "[]"
+  );
+
+}
+
+function saveUsers(users){
+
+  localStorage.setItem(
+    "peerSolveUsers",
+    JSON.stringify(users)
+  );
+
+}
+
+
+function getQuestions(){
+
+  return JSON.parse(
+    localStorage.getItem("peerSolveQuestions") || "[]"
+  );
+
+}
+
+function saveQuestions(questions){
+
+  localStorage.setItem(
+    "peerSolveQuestions",
+    JSON.stringify(questions)
+  );
+
+}
+
+
+function getResources(){
+
+  return JSON.parse(
+    localStorage.getItem("peerSolveResources") || "[]"
+  );
+
+}
+
+function saveResources(resources){
+
+  localStorage.setItem(
+    "peerSolveResources",
+    JSON.stringify(resources)
+  );
+
+}
+
+
+/* =========================================================
+   HELPER FUNCTIONS
+========================================================= */
+
+function getInitials(name){
+
+  if(!name){
+    return "U";
+  }
+
+  return name
+    .split(" ")
+    .map(n => n[0])
+    .join("")
+    .substring(0,2)
+    .toUpperCase();
+
+}
+
+
+function capitalize(str){
+
+  if(!str){
+    return "";
+  }
+
+  return str.charAt(0).toUpperCase()+str.slice(1);
+
+}
+
+
+function timeNow(){
+
+  return new Date().toLocaleTimeString(
+    "en-IN",
+    {
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+
+}
+
+
+function escapeHTML(str){
+
+  return String(str ?? "")
+    .replace(/[&<>"']/g,m => ({
+
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+
+    }[m]));
+
+}
+
+
+/* =========================================================
+   TOAST SYSTEM
+========================================================= */
+
+function showToast(message,type="info"){
+
+  const container =
+    document.getElementById("toastContainer");
+
+  const toast =
+    document.createElement("div");
+
+  toast.className =
+    "toast "+type;
+
+  toast.textContent =
+    message;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+
+    toast.remove();
+
+  },3500);
+
+}
+
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+function showLogin(){
+
+  document
+    .getElementById("registerScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("loginScreen")
+    .classList.remove("hidden");
+
+}
+
+
+function showRegister(){
+
+  document
+    .getElementById("loginScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("registerScreen")
+    .classList.remove("hidden");
+
+}
+
+
+function registerUser(){
+
+  const name =
+    document.getElementById("registerName").value.trim();
+
+  const email =
+    document.getElementById("registerEmail").value.trim().toLowerCase();
+
+  const password =
+    document.getElementById("registerPassword").value;
+
+  const confirm =
+    document.getElementById("registerConfirmPassword").value;
+
+  const role =
+    document.getElementById("registerRole").value;
+
+  const college =
+    document.getElementById("registerCollege").value.trim();
+
+  const branch =
+    document.getElementById("registerBranch").value.trim();
+
+  const year =
+    document.getElementById("registerYear").value;
+
+  const photoInput =
+    document.getElementById("registerPhoto");
+
+  const message =
+    document.getElementById("registerMessage");
+
+
+  message.innerHTML="";
+
+
+  if(
+    !name ||
+    !email ||
+    !password ||
+    !confirm ||
+    !college ||
+    !branch
+  ){
+
+    message.innerHTML =
+      `<div class="error-message">
+        Please fill all required fields.
+      </div>`;
+
+    return;
+
+  }
+
+
+  if(password.length < 6){
+
+    message.innerHTML =
+      `<div class="error-message">
+        Password must contain at least 6 characters.
+      </div>`;
+
+    return;
+
+  }
+
+
+  if(password !== confirm){
+
+    message.innerHTML =
+      `<div class="error-message">
+        Passwords do not match.
+      </div>`;
+
+    return;
+
+  }
+
+
+  const users = getUsers();
+
+
+  if(users.some(u => u.email === email)){
+
+    message.innerHTML =
+      `<div class="error-message">
+        An account with this email already exists.
+      </div>`;
+
+    return;
+
+  }
+
+
+  const finalizeRegistration = (photo="") => {
+
+    const newUser = {
+
+      id:Date.now(),
+
+      name,
+
+      email,
+
+      password,
+
+      role,
+
+      college,
+
+      branch,
+
+      year,
+
+      photo,
+
+      joined:new Date().toLocaleDateString(
+        "en-IN",
+        {
+          month:"long",
+          year:"numeric"
+        }
+      )
+
+    };
+
+
+    users.push(newUser);
+
+    saveUsers(users);
+
+
+    message.innerHTML =
+      `<div class="success-message">
+        Account created successfully! Please login.
+      </div>`;
+
+
+    [
+      "registerName",
+      "registerEmail",
+      "registerPassword",
+      "registerConfirmPassword",
+      "registerCollege",
+      "registerBranch"
+    ].forEach(id => {
+
+      document.getElementById(id).value="";
+
+    });
+
+
+    document.getElementById(
+      "registerPhoto"
+    ).value="";
+
+
+    showToast(
+      "Account created successfully!",
+      "success"
+    );
+
+
+    setTimeout(
+      showLogin,
+      1000
+    );
+
+  };
+
+
+  if(photoInput.files.length > 0){
+
+    const reader =
+      new FileReader();
+
+    reader.onload = e => {
+
+      finalizeRegistration(
+        e.target.result
+      );
+
+    };
+
+    reader.readAsDataURL(
+      photoInput.files[0]
+    );
+
+  }else{
+
+    finalizeRegistration("");
+
+  }
+
+}
+
+
+function loginUser(){
+
+  const email =
+    document.getElementById("loginEmail").value
+    .trim()
+    .toLowerCase();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  const message =
+    document.getElementById("loginMessage");
+
+
+  message.innerHTML="";
+
+
+  if(!email || !password){
+
+    message.innerHTML =
+      `<div class="error-message">
+        Please enter email and password.
+      </div>`;
+
+    return;
+
+  }
+
+
+  const users =
+    getUsers();
+
+  const user =
+    users.find(
+      u =>
+        u.email === email &&
+        u.password === password
+    );
+
+
+  if(!user){
+
+    message.innerHTML =
+      `<div class="error-message">
+        Invalid email or password.
+      </div>`;
+
+    return;
+
+  }
+
+
+  currentUser = user;
+
+  currentRole = user.role;
+
+
+  localStorage.setItem(
+    "peerSolveCurrentUser",
+    user.email
+  );
+
+
+  openApplication();
+
+  showToast(
+    "Welcome back, "+user.name+"! 👋",
+    "success"
+  );
+
+}
+
+
+function openApplication(){
+
+  document
+    .getElementById("loginScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("registerScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("app")
+    .classList.remove("hidden");
+
+
+  updateUserInterface();
+
+  renderAllViews();
+
+  applySavedTheme();
+
+}
+
+
+function logout(){
+
+  currentUser=null;
+
+  currentRole="student";
+
+  localStorage.removeItem(
+    "peerSolveCurrentUser"
+  );
+
+
+  document
+    .getElementById("app")
+    .classList.add("hidden");
+
+  document
+    .getElementById("loginScreen")
+    .classList.remove("hidden");
+
+
+  document.getElementById(
+    "loginEmail"
+  ).value="";
+
+  document.getElementById(
+    "loginPassword"
+  ).value="";
+
+
+  showToast(
+    "You have been logged out.",
+    "info"
+  );
+
+}
+
+
+/* =========================================================
+   UI SYNC
+========================================================= */
+
+function updateUserInterface(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  document.getElementById(
+    "sidebarName"
+  ).textContent =
+    currentUser.name;
+
+
+  document.getElementById(
+    "sidebarRole"
+  ).textContent =
+    capitalize(currentUser.role);
+
+
+  document.getElementById(
+    "welcomeTitle"
+  ).textContent =
+    `Welcome, ${currentUser.name} 👋`;
+
+
+  document.getElementById(
+    "topProfileName"
+  ).textContent =
+    currentUser.name;
+
+
+  setAvatar(
+    "sidebarAvatar",
+    currentUser
+  );
+
+  setAvatar(
+    "topProfileAvatar",
+    currentUser
+  );
+
+  setAvatar(
+    "profileBigAvatar",
+    currentUser
+  );
+
+
+  document
+    .getElementById("seniorNavigation")
+    .classList.toggle(
+      "hidden",
+      currentUser.role !== "senior"
+    );
+
+
+  document
+    .getElementById("adminNavigation")
+    .classList.toggle(
+      "hidden",
+      currentUser.role !== "admin"
+    );
+
+
+  renderProfile();
+
+}
+
+
+function setAvatar(elementId,user){
+
+  const el =
+    document.getElementById(elementId);
+
+  if(!el){
+    return;
+  }
+
+
+  if(user && user.photo){
+
+    el.innerHTML =
+      `<img src="${user.photo}" alt="Profile">`;
+
+  }else{
+
+    el.textContent =
+      getInitials(
+        user ? user.name : ""
+      );
+
+  }
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(page,button){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(
+      p =>
+        p.classList.add("hidden")
+    );
+
+
+  const target =
+    document.getElementById(
+      page+"Page"
+    );
+
+
+  if(target){
+    target.classList.remove("hidden");
+  }
+
+
+  document
+    .querySelectorAll(".nav-item")
+    .forEach(
+      item =>
+        item.classList.remove("active")
+    );
+
+
+  if(button){
+    button.classList.add("active");
+  }
+
+
+  const titles = {
+
+    dashboard:"Dashboard",
+
+    ask:"Ask a Doubt",
+
+    questions:"Browse Doubts",
+
+    mydoubts:"My Doubts",
+
+    leaderboard:"Leaderboard",
+
+    ai:"AI Assistant",
+
+    resources:"Resource Sharing",
+
+    profile:"My Profile",
+
+    requests:"Answer Requests",
+
+    seniorStats:"Senior Statistics",
+
+    users:"User Management",
+
+    reports:"Reports & Moderation",
+
+    analytics:"Platform Analytics",
+
+    settings:"Settings"
+
+  };
+
+
+  document.getElementById(
+    "pageTitle"
+  ).textContent =
+    titles[page] || "PeerSolve";
+
+
+  if(page==="profile")
+    renderProfile();
+
+  if(page==="users")
+    renderUsers();
+
+  if(page==="mydoubts")
+    renderMyQuestions();
+
+  if(page==="questions")
+    renderQuestions();
+
+  if(page==="requests")
+    renderSeniorRequests();
+
+  if(page==="leaderboard")
+    renderLeaderboard();
+
+  if(page==="seniorStats")
+    renderSeniorStats();
+
+  if(page==="analytics")
+    renderAnalytics();
+
+  if(page==="resources")
+    renderResources();
+
+  if(page==="settings")
+    updateThemeCards();
+
+
+  if(window.innerWidth<=700){
+
+    document
+      .getElementById("sidebar")
+      .classList.remove("open");
+
+  }
+
+}
+
+
+function showPageById(page){
+
+  showPage(
+    page,
+    null
+  );
+
+}
+
+
+function toggleSidebar(){
+
+  document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+
+}
+
+
+/* =========================================================
+   QUESTION HTML
+========================================================= */
+
+function questionHTML(q){
+
+  const answerList =
+    q.answers || [];
+
+  const isAnswered =
+    answerList.length > 0;
+
+
+  const answersMarkup =
+    answerList.map(a => {
+
+      const isMe =
+        currentUser &&
+        a.userEmail === currentUser.email;
+
+
+      const roleBadge =
+        a.userRole === "senior"
+
+        ?
+
+        '<span class="senior-badge">SENIOR</span>'
+
+        :
+
+        '<span class="student-badge">STUDENT</span>';
+
+
+      const repliesList =
+        (a.replies || [])
+        .map(r => `
+
+          <div class="reply-item">
+
+            <span class="reply-author">
+              ${escapeHTML(r.user)}
+            </span>
+
+            <span class="reply-time">
+              ${escapeHTML(r.createdAt)}
+            </span>
+
+            <div class="reply-text">
+              ${escapeHTML(r.text)}
+            </div>
+
+          </div>
+
+        `)
+        .join("");
+
+
+      return `
+
+        <div class="answer">
+
+          <div class="answer-header">
+
+            <div class="small-avatar">
+              ${escapeHTML(getInitials(a.user))}
+            </div>
+
+            <strong>
+              ${escapeHTML(a.user)}
+            </strong>
+
+            ${isMe
+              ? '<span class="senior-badge">YOU</span>'
+              : roleBadge
+            }
+
+            <small
+              style="margin-left:auto;color:var(--muted);font-size:11px;"
+            >
+              ${escapeHTML(a.createdAt)}
+            </small>
+
+          </div>
+
+
+          <p>
+            ${escapeHTML(a.text)}
+          </p>
+
+
+          <div
+            class="question-actions"
+            style="margin-top:10px;"
+          >
+
+            <button
+              class="action-btn"
+              onclick="upvoteAnswer(${q.id},${a.id})"
+            >
+              👍 ${a.votes || 0}
+            </button>
+
+          </div>
+
+
+          <div class="reply-box">
+
+            ${repliesList}
+
+
+            <div class="reply-form">
+
+              <input
+                type="text"
+                id="reply-input-${q.id}-${a.id}"
+                placeholder="Reply to this comment..."
+              >
+
+              <button
+                onclick="postReply(${q.id},${a.id})"
+              >
+                Reply
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    })
+    .join("");
+
+
+  return `
+
+    <div
+      class="question-card"
+      id="qcard-${q.id}"
+    >
+
+      <div class="question-top">
+
+        <div class="question-user">
+
+          <div class="small-avatar">
+            ${escapeHTML(getInitials(q.user))}
+          </div>
+
+          <div>
+
+            <strong>
+              ${escapeHTML(q.user)}
+            </strong>
+
+            <small>
+              ${escapeHTML(q.createdAt)}
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <span class="badge">
+          ${escapeHTML(q.subject)}
+        </span>
+
+      </div>
+
+
+      <h3 class="question-title">
+        ${escapeHTML(q.title)}
+      </h3>
+
+
+      <p class="question-text">
+        ${escapeHTML(q.text)}
+      </p>
+
+
+      ${
+        q.tags && q.tags.length
+
+        ?
+
+        `<div class="question-tags">
+          #${q.tags.map(escapeHTML).join(" #")}
+        </div>`
+
+        :
+
+        ""
+
+      }
+
+
+      <div class="question-actions">
+
+        <button
+          class="action-btn"
+          onclick="upvoteQuestion(${q.id})"
+        >
+          👍 ${q.votes || 0}
+        </button>
+
+
+        <button
+          class="action-btn"
+          onclick="focusAnswerField(${q.id})"
+        >
+          💬 ${answerList.length} Answers
+        </button>
+
+
+        <button
+          class="action-btn"
+          onclick="saveQuestion(${q.id})"
+        >
+          🔖 Save
+        </button>
+
+
+        <button
+          class="action-btn answer-count"
+        >
+          ${
+            isAnswered
+            ? "✓ Answered"
+            : "Needs Answer"
+          }
+        </button>
+
+      </div>
+
+
+      <div class="answer-form">
+
+        <strong>
+          💡 Post an Answer
+        </strong>
+
+        <textarea
+          id="answer-text-${q.id}"
+          placeholder="Provide your explanation, formulas or code solution..."
+        ></textarea>
+
+        <button
+          onclick="postAnswer(${q.id})"
+        >
+          Submit Answer
+        </button>
+
+      </div>
+
+
+      ${
+        answerList.length > 0
+
+        ?
+
+        `<div class="answers-container">
+          ${answersMarkup}
+        </div>`
+
+        :
+
+        ""
+
+      }
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   QUESTION ACTIONS
+========================================================= */
+
+function focusAnswerField(id){
+
+  const field =
+    document.getElementById(
+      `answer-text-${id}`
+    );
+
+  if(field){
+    field.focus();
+  }
+
+}
+
+
+function postQuestion(){
+
+  if(!currentUser){
+
+    showToast(
+      "Please login to ask a question.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const title =
+    document
+      .getElementById("questionTitle")
+      .value
+      .trim();
+
+
+  const subject =
+    document
+      .getElementById("questionSubject")
+      .value;
+
+
+  const text =
+    document
+      .getElementById("questionDescription")
+      .value
+      .trim();
+
+
+  const tags =
+    document
+      .getElementById("questionTags")
+      .value
+      .split(",")
+      .map(t => t.trim())
+      .filter(Boolean);
+
+
+  if(!title || !subject || !text){
+
+    showToast(
+      "Please fill all required fields.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const questions =
+    getQuestions();
+
+
+  const newQuestion = {
+
+    id:Date.now(),
+
+    userId:currentUser.id,
+
+    user:currentUser.name,
+
+    userEmail:currentUser.email,
+
+    subject,
+
+    title,
+
+    text,
+
+    tags,
+
+    votes:0,
+
+    createdAt:"Just now",
+
+    answers:[]
+
+  };
+
+
+  questions.unshift(
+    newQuestion
+  );
+
+
+  saveQuestions(
+    questions
+  );
+
+
+  document.getElementById(
+    "questionTitle"
+  ).value="";
+
+  document.getElementById(
+    "questionSubject"
+  ).value="";
+
+  document.getElementById(
+    "questionDescription"
+  ).value="";
+
+  document.getElementById(
+    "questionTags"
+  ).value="";
+
+
+  showToast(
+    "🎉 Your doubt has been posted!",
+    "success"
+  );
+
+
+  renderAllViews();
+
+  showPageById(
+    "mydoubts"
+  );
+
+}
+
+
+function postAnswer(qid){
+
+  if(!currentUser){
+
+    showToast(
+      "Please login first.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const input =
+    document.getElementById(
+      `answer-text-${qid}`
+    );
+
+
+  const answerText =
+    input?.value.trim();
+
+
+  if(!answerText){
+
+    showToast(
+      "Please enter your answer.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const questions =
+    getQuestions();
+
+
+  const question =
+    questions.find(
+      q => q.id === qid
+    );
+
+
+  if(!question){
+    return;
+  }
+
+
+  if(!question.answers){
+    question.answers=[];
+  }
+
+
+  question.answers.push({
+
+    id:Date.now(),
+
+    userId:currentUser.id,
+
+    user:currentUser.name,
+
+    userEmail:currentUser.email,
+
+    userRole:currentUser.role || "student",
+
+    text:answerText,
+
+    votes:0,
+
+    createdAt:timeNow(),
+
+    replies:[]
+
+  });
+
+
+  saveQuestions(
+    questions
+  );
+
+
+  input.value="";
+
+
+  renderAllViews();
+
+
+  showToast(
+    "✅ Your answer has been saved!",
+    "success"
+  );
+
+}
+
+
+function postReply(qid,aid){
+
+  if(!currentUser){
+
+    showToast(
+      "Please login first.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const input =
+    document.getElementById(
+      `reply-input-${qid}-${aid}`
+    );
+
+
+  const replyText =
+    input?.value.trim();
+
+
+  if(!replyText){
+    return;
+  }
+
+
+  const questions =
+    getQuestions();
+
+
+  const question =
+    questions.find(
+      q => q.id === qid
+    );
+
+
+  if(!question){
+    return;
+  }
+
+
+  const answer =
+    question.answers?.find(
+      a => a.id === aid
+    );
+
+
+  if(!answer){
+    return;
+  }
+
+
+  if(!answer.replies){
+    answer.replies=[];
+  }
+
+
+  answer.replies.push({
+
+    id:Date.now(),
+
+    userId:currentUser.id,
+
+    user:currentUser.name,
+
+    userEmail:currentUser.email,
+
+    text:replyText,
+
+    createdAt:timeNow()
+
+  });
+
+
+  saveQuestions(
+    questions
+  );
+
+
+  input.value="";
+
+
+  renderAllViews();
+
+
+  showToast(
+    "Reply added.",
+    "success"
+  );
+
+}
+
+
+function upvoteQuestion(id){
+
+  const questions =
+    getQuestions();
+
+
+  const q =
+    questions.find(
+      x => x.id === id
+    );
+
+
+  if(!q){
+    return;
+  }
+
+
+  q.votes =
+    (q.votes || 0)+1;
+
+
+  saveQuestions(
+    questions
+  );
+
+
+  renderAllViews();
+
+}
+
+
+function upvoteAnswer(qid,aid){
+
+  const questions =
+    getQuestions();
+
+
+  const q =
+    questions.find(
+      x => x.id === qid
+    );
+
+
+  const a =
+    q?.answers?.find(
+      x => x.id === aid
+    );
+
+
+  if(!a){
+    return;
+  }
+
+
+  a.votes =
+    (a.votes || 0)+1;
+
+
+  saveQuestions(
+    questions
+  );
+
+
+  renderAllViews();
+
+}
+
+
+function saveQuestion(id){
+
+  let bookmarks =
+    JSON.parse(
+      localStorage.getItem(
+        "peerSolveBookmarks"
+      ) || "[]"
+    );
+
+
+  if(!bookmarks.includes(id)){
+    bookmarks.push(id);
+  }
+
+
+  localStorage.setItem(
+    "peerSolveBookmarks",
+    JSON.stringify(bookmarks)
+  );
+
+
+  showToast(
+    "🔖 Question saved!",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   QUESTION RENDERERS
+========================================================= */
+
+function renderQuestions(){
+
+  const container =
+    document.getElementById(
+      "questionsList"
+    );
+
+
+  if(!container){
+    return;
+  }
+
+
+  const search =
+    (
+      document.getElementById(
+        "searchInput"
+      )?.value || ""
+    )
+    .toLowerCase();
+
+
+  const subject =
+    document.getElementById(
+      "subjectFilter"
+    )?.value || "";
+
+
+  const questions =
+    getQuestions();
+
+
+  const filtered =
+    questions.filter(q => {
+
+      const searchMatch = (
+
+        q.title+
+        " "+
+        q.text+
+        " "+
+        q.subject+
+        " "+
+        (q.tags || []).join(" ")
+
+      )
+      .toLowerCase()
+      .includes(search);
+
+
+      const subjectMatch =
+        !subject ||
+        q.subject === subject;
+
+
+      const answerCount =
+        (q.answers || []).length;
+
+
+      let tabMatch=true;
+
+
+      if(currentTab==="unanswered"){
+        tabMatch =
+          answerCount===0;
+      }
+
+
+      if(currentTab==="answered"){
+        tabMatch =
+          answerCount>0;
+      }
+
+
+      return (
+        searchMatch &&
+        subjectMatch &&
+        tabMatch
+      );
+
+    });
+
+
+  container.innerHTML =
+    filtered.length
+
+    ?
+
+    filtered
+      .map(questionHTML)
+      .join("")
+
+    :
+
+    `
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          🔍
+        </div>
+
+        <strong>
+          No doubts found
+        </strong>
+
+        <p>
+          Try changing your search or subject filter.
+        </p>
+
+      </div>
+    `;
+
+}
+
+
+function renderRecentQuestions(){
+
+  const container =
+    document.getElementById(
+      "recentQuestions"
+    );
+
+
+  if(!container){
+    return;
+  }
+
+
+  const questions =
+    getQuestions();
+
+
+  container.innerHTML =
+    questions.length
+
+    ?
+
+    questions
+      .slice(0,3)
+      .map(questionHTML)
+      .join("")
+
+    :
+
+    `
+      <div class="empty-state">
+        No recent doubts posted yet.
+      </div>
+    `;
+
+}
+
+
+function renderMyQuestions(){
+
+  const container =
+    document.getElementById(
+      "myQuestions"
+    );
+
+
+  if(!container || !currentUser){
+    return;
+  }
+
+
+  const allQuestions =
+    getQuestions();
+
+
+  const myQuestions =
+    allQuestions.filter(
+      q =>
+        q.userEmail ===
+        currentUser.email
+    );
+
+
+  const answered =
+    myQuestions.filter(
+      q =>
+        (q.answers || []).length>0
+    );
+
+
+  const unanswered =
+    myQuestions.filter(
+      q =>
+        !(q.answers || []).length
+    );
+
+
+  const totalAnswers =
+    myQuestions.reduce(
+      (sum,q) =>
+        sum+
+        (q.answers || []).length,
+      0
+    );
+
+
+  document.getElementById(
+    "myTotal"
+  ).textContent =
+    myQuestions.length;
+
+
+  document.getElementById(
+    "myAnswered"
+  ).textContent =
+    answered.length;
+
+
+  document.getElementById(
+    "myUnanswered"
+  ).textContent =
+    unanswered.length;
+
+
+  document.getElementById(
+    "myAnswerCount"
+  ).textContent =
+    totalAnswers;
+
+
+  container.innerHTML =
+    myQuestions.length
+
+    ?
+
+    myQuestions
+      .map(questionHTML)
+      .join("")
+
+    :
+
+    `
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          📝
+        </div>
+
+        You have not asked any doubts yet.
+
+        <br><br>
+
+        Click "+ Ask Doubt" to post one.
+
+      </div>
+    `;
+
+}
+
+
+function renderSeniorRequests(){
+
+  const container =
+    document.getElementById(
+      "seniorRequestsContainer"
+    );
+
+
+  if(!container){
+    return;
+  }
+
+
+  const unanswered =
+    getQuestions().filter(
+      q =>
+        !(q.answers || []).length
+    );
+
+
+  container.innerHTML =
+    unanswered.length
+
+    ?
+
+    unanswered
+      .map(questionHTML)
+      .join("")
+
+    :
+
+    `
+      <div class="card empty-state">
+
+        <div class="empty-icon">
+          🎉
+        </div>
+
+        No pending questions right now!
+
+        <br>
+
+        All doubts have answers.
+
+      </div>
+    `;
+
+}
+
+
+/* =========================================================
+   DASHBOARD STATS
+========================================================= */
+
+function renderDashboardStats(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  const questions =
+    getQuestions();
+
+
+  const myQuestions =
+    questions.filter(
+      q =>
+        q.userEmail ===
+        currentUser.email
+    );
+
+
+  const answersGiven =
+    questions
+      .flatMap(
+        q => q.answers || []
+      )
+      .filter(
+        a =>
+          a.userEmail ===
+          currentUser.email
+      );
+
+
+  const helpfulCount =
+    answersGiven.reduce(
+      (n,a) =>
+        n+(a.votes || 0),
+      0
+    );
+
+
+  document.getElementById(
+    "statQuestions"
+  ).textContent =
+    myQuestions.length;
+
+
+  document.getElementById(
+    "statSolved"
+  ).textContent =
+    myQuestions.filter(
+      q =>
+        (q.answers || []).length>0
+    ).length;
+
+
+  document.getElementById(
+    "statAnswers"
+  ).textContent =
+    answersGiven.length;
+
+
+  document.getElementById(
+    "statReputation"
+  ).textContent =
+    answersGiven.length*10+
+    helpfulCount;
+
+}
+
+
+/* =========================================================
+   LEADERBOARD
+========================================================= */
+
+function renderLeaderboard(){
+
+  const table =
+    document.getElementById(
+      "leaderboardTable"
+    );
+
+
+  if(!table){
+    return;
+  }
+
+
+  const users =
+    getUsers();
+
+
+  const questions =
+    getQuestions();
+
+
+  const userStats =
+    users.map(user => {
+
+      const userAnswers =
+        questions
+          .flatMap(
+            q => q.answers || []
+          )
+          .filter(
+            a =>
+              a.userEmail ===
+              user.email
+          );
+
+
+      const helpful =
+        userAnswers.reduce(
+          (n,a) =>
+            n+(a.votes || 0),
+          0
+        );
+
+
+      const rep =
+        userAnswers.length*10+
+        helpful;
+
+
+      return {
+        ...user,
+        answersCount:userAnswers.length,
+        helpful,
+        rep
+      };
+
+    });
+
+
+  userStats.sort(
+    (a,b) =>
+      b.rep-a.rep
+  );
+
+
+  table.innerHTML =
+    userStats.map(
+      (u,i) => `
+
+        <tr>
+
+          <td>
+            ${
+              i===0
+              ? "🥇 1"
+              : i===1
+              ? "🥈 2"
+              : i===2
+              ? "🥉 3"
+              : i+1
+            }
+          </td>
+
+          <td>
+            ${escapeHTML(u.name)}
+          </td>
+
+          <td>
+            ${capitalize(u.role)}
+          </td>
+
+          <td>
+            ${u.answersCount}
+          </td>
+
+          <td>
+            ${u.helpful}
+          </td>
+
+          <td>
+            <strong>
+              ${u.rep}
+            </strong>
+          </td>
+
+        </tr>
+
+      `
+    )
+    .join("");
+
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function renderProfile(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  const questions =
+    getQuestions();
+
+
+  const myDoubts =
+    questions.filter(
+      q =>
+        q.userEmail ===
+        currentUser.email
+    );
+
+
+  const answersGiven =
+    questions
+      .flatMap(
+        q => q.answers || []
+      )
+      .filter(
+        a =>
+          a.userEmail ===
+          currentUser.email
+      );
+
+
+  const helpful =
+    answersGiven.reduce(
+      (n,a) =>
+        n+(a.votes || 0),
+      0
+    );
+
+
+  const reputation =
+    answersGiven.length*10+
+    helpful;
+
+
+  document.getElementById(
+    "profileName"
+  ).textContent =
+    currentUser.name;
+
+
+  document.getElementById(
+    "profileEmail"
+  ).textContent =
+    currentUser.email;
+
+
+  document.getElementById(
+    "profileRole"
+  ).textContent =
+    capitalize(
+      currentUser.role
+    );
+
+
+  document.getElementById(
+    "infoName"
+  ).textContent =
+    currentUser.name;
+
+
+  document.getElementById(
+    "infoEmail"
+  ).textContent =
+    currentUser.email;
+
+
+  document.getElementById(
+    "infoCollege"
+  ).textContent =
+    currentUser.college;
+
+
+  document.getElementById(
+    "infoBranch"
+  ).textContent =
+    currentUser.branch;
+
+
+  document.getElementById(
+    "infoYear"
+  ).textContent =
+    currentUser.year;
+
+
+  document.getElementById(
+    "infoRole"
+  ).textContent =
+    capitalize(
+      currentUser.role
+    );
+
+
+  document.getElementById(
+    "infoJoined"
+  ).textContent =
+    currentUser.joined;
+
+
+  document.getElementById(
+    "profileQuestions"
+  ).textContent =
+    myDoubts.length;
+
+
+  document.getElementById(
+    "profileAnswers"
+  ).textContent =
+    answersGiven.length;
+
+
+  document.getElementById(
+    "profileReputation"
+  ).textContent =
+    reputation;
+
+
+  document.getElementById(
+    "profileHelpful"
+  ).textContent =
+    helpful;
+
+
+  setAvatar(
+    "profileBigAvatar",
+    currentUser
+  );
+
+}
+
+
+/* =========================================================
+   SENIOR STATS
+========================================================= */
+
+function renderSeniorStats(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  const questions =
+    getQuestions();
+
+
+  const answersGiven =
+    questions
+      .flatMap(
+        q => q.answers || []
+      )
+      .filter(
+        a =>
+          a.userEmail ===
+          currentUser.email
+      );
+
+
+  const helpful =
+    answersGiven.reduce(
+      (n,a) =>
+        n+(a.votes || 0),
+      0
+    );
+
+
+  const helpedStudents =
+    new Set(
+
+      questions
+
+        .filter(
+          q =>
+            (q.answers || [])
+            .some(
+              a =>
+                a.userEmail ===
+                currentUser.email
+            )
+        )
+
+        .map(
+          q => q.userEmail
+        )
+
+    ).size;
+
+
+  document.getElementById(
+    "seniorAnswers"
+  ).textContent =
+    answersGiven.length;
+
+
+  document.getElementById(
+    "seniorHelpful"
+  ).textContent =
+    helpful;
+
+
+  document.getElementById(
+    "seniorStudents"
+  ).textContent =
+    helpedStudents;
+
+
+  document.getElementById(
+    "seniorRep"
+  ).textContent =
+    answersGiven.length*10+
+    helpful;
+
+}
+
+
+/* =========================================================
+   USERS
+========================================================= */
+
+function renderUsers(){
+
+  const table =
+    document.getElementById(
+      "usersTable"
+    );
+
+
+  if(!table){
+    return;
+  }
+
+
+  const users =
+    getUsers();
+
+
+  table.innerHTML =
+    users.map(
+      u => `
+
+        <tr>
+
+          <td>
+            ${escapeHTML(u.name)}
+          </td>
+
+          <td>
+            ${escapeHTML(u.email)}
+          </td>
+
+          <td>
+            ${capitalize(u.role)}
+          </td>
+
+          <td>
+            ${escapeHTML(u.college)}
+          </td>
+
+          <td>
+            ${escapeHTML(u.branch)}
+          </td>
+
+          <td
+            style="color:#16a34a;font-weight:700"
+          >
+            Active
+          </td>
+
+        </tr>
+
+      `
+    )
+    .join("");
+
+}
+
+
+/* =========================================================
+   ANALYTICS
+========================================================= */
+
+function renderAnalytics(){
+
+  const users =
+    getUsers();
+
+
+  const questions =
+    getQuestions();
+
+
+  const totalAnswers =
+    questions.reduce(
+      (sum,q) =>
+        sum+(q.answers || []).length,
+      0
+    );
+
+
+  document.getElementById(
+    "totalUsers"
+  ).textContent =
+    users.length;
+
+
+  document.getElementById(
+    "totalQuestions"
+  ).textContent =
+    questions.length;
+
+
+  document.getElementById(
+    "totalAnswers"
+  ).textContent =
+    totalAnswers;
+
+
+  document.getElementById(
+    "totalSeniors"
+  ).textContent =
+    users.filter(
+      u =>
+        u.role==="senior"
+    ).length;
+
+}
+
+
+/* =========================================================
+   EDIT PROFILE
+========================================================= */
+
+function openEditProfile(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  document.getElementById(
+    "editName"
+  ).value =
+    currentUser.name;
+
+
+  document.getElementById(
+    "editCollege"
+  ).value =
+    currentUser.college;
+
+
+  document.getElementById(
+    "editBranch"
+  ).value =
+    currentUser.branch;
+
+
+  document.getElementById(
+    "editYear"
+  ).value =
+    currentUser.year;
+
+
+  document.getElementById(
+    "editPhoto"
+  ).value="";
+
+
+  document
+    .getElementById(
+      "editProfileModal"
+    )
+    .classList.remove("hidden");
+
+}
+
+
+function closeEditProfile(){
+
+  document
+    .getElementById(
+      "editProfileModal"
+    )
+    .classList.add("hidden");
+
+}
+
+
+function saveProfile(){
+
+  const name =
+    document
+      .getElementById("editName")
+      .value
+      .trim();
+
+
+  const college =
+    document
+      .getElementById("editCollege")
+      .value
+      .trim();
+
+
+  const branch =
+    document
+      .getElementById("editBranch")
+      .value
+      .trim();
+
+
+  const year =
+    document.getElementById(
+      "editYear"
+    ).value;
+
+
+  const photoInput =
+    document.getElementById(
+      "editPhoto"
+    );
+
+
+  if(!name || !college || !branch){
+
+    showToast(
+      "Please fill all profile fields.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const updateUserRecord =
+    photo => {
+
+      const users =
+        getUsers();
+
+
+      const idx =
+        users.findIndex(
+          u =>
+            u.email ===
+            currentUser.email
+        );
+
+
+      if(idx===-1){
+        return;
+      }
+
+
+      users[idx] = {
+
+        ...users[idx],
+
+        name,
+
+        college,
+
+        branch,
+
+        year
+
+      };
+
+
+      if(photo !== null){
+        users[idx].photo=photo;
+      }
+
+
+      saveUsers(users);
+
+
+      currentUser =
+        users[idx];
+
+
+      updateUserInterface();
+
+
+      closeEditProfile();
+
+
+      showToast(
+        "✅ Profile updated successfully!",
+        "success"
+      );
+
+    };
+
+
+  if(photoInput.files.length>0){
+
+    const reader =
+      new FileReader();
+
+
+    reader.onload =
+      e =>
+        updateUserRecord(
+          e.target.result
+        );
+
+
+    reader.readAsDataURL(
+      photoInput.files[0]
+    );
+
+  }else{
+
+    updateUserRecord(null);
+
+  }
+
+}
+
+
+/* =========================================================
+   SEARCH / FILTER
+========================================================= */
+
+function filterSubject(subject){
+
+  showPageById(
+    "questions"
+  );
+
+
+  document.getElementById(
+    "subjectFilter"
+  ).value =
+    subject;
+
+
+  currentTab="all";
+
+
+  renderQuestions();
+
+}
+
+
+function changeTab(button,type){
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(
+      t =>
+        t.classList.remove("active")
+    );
+
+
+  button.classList.add(
+    "active"
+  );
+
+
+  currentTab=type;
+
+
+  renderQuestions();
+
+}
+
+
+/* =========================================================
+   AI AGENT ENGINE
+========================================================= */
+
+function getAIResponse(query){
+
+  const q =
+    query.toLowerCase();
+
+
+  if(
+    q.includes("binary search") ||
+    q.includes("binarysearch")
+  ){
+
+    return `
+
+      <strong>🔎 Binary Search</strong>
+
+      Binary search is an efficient searching algorithm
+      used on a <strong>sorted</strong> array.
+
+      <br><br>
+
+      <strong>How it works:</strong>
+
+      <br>
+      1. Find the middle element.
+      <br>
+      2. Compare it with the target.
+      <br>
+      3. If target is smaller, search the left half.
+      <br>
+      4. If target is larger, search the right half.
+      <br>
+      5. Repeat until the element is found.
+
+      <br><br>
+
+      <strong>Time Complexity:</strong> O(log n)
+
+      <br>
+
+      <strong>Space Complexity:</strong> O(1) for iterative implementation.
+
+    `;
+
+  }
+
+
+  if(
+    q.includes("normalization") ||
+    q.includes("1nf") ||
+    q.includes("2nf") ||
+    q.includes("3nf")
+  ){
+
+    return `
+
+      <strong>🗄️ DBMS Normalization</strong>
+
+      Normalization is the process of organizing database
+      tables to reduce duplicate data and improve data integrity.
+
+      <br><br>
+
+      <strong>1NF:</strong>
+      Each cell should contain a single value.
+
+      <br><br>
+
+      <strong>2NF:</strong>
+      Table should be in 1NF and non-key attributes should
+      depend on the complete primary key.
+
+      <br><br>
+
+      <strong>3NF:</strong>
+      Table should be in 2NF and non-key attributes should
+      not depend on other non-key attributes.
+
+      <br><br>
+
+      <strong>Simple idea:</strong>
+      Store each type of information in the appropriate table
+      instead of repeating the same information everywhere.
+
+    `;
+
+  }
+
+
+  if(
+    q.includes("list") &&
+    q.includes("tuple")
+  ){
+
+    return `
+
+      <strong>🐍 Python List vs Tuple</strong>
+
+      <br><br>
+
+      <strong>List:</strong>
+      Mutable, meaning its elements can be changed.
+
+      <br>
+
+      Example:
+      <code>numbers = [1,2,3]</code>
+
+      <br><br>
+
+      <strong>Tuple:</strong>
+      Immutable, meaning its elements cannot normally be changed.
+
+      <br>
+
+      Example:
+      <code>numbers = (1,2,3)</code>
+
+      <br><br>
+
+      Use a list when your data needs to change.
+      Use a tuple when your data should remain fixed.
+
+    `;
+
+  }
+
+
+  if(
+    q.includes("python") ||
+    q.includes("py code") ||
+    q.includes("python code")
+  ){
+
+    return `
+
+      <strong>🐍 Python Help</strong>
+
+      Python is a high-level programming language known for
+      simple syntax and extensive libraries.
+
+      <br><br>
+
+      Important beginner concepts include:
+
+      <br>
+      • Variables
+      <br>
+      • Data types
+      <br>
+      • if/else
+      <br>
+      • for and while loops
+      <br>
+      • Functions
+      <br>
+      • Lists and tuples
+      <br>
+      • Dictionaries
+      <br>
+      • Classes and objects
+
+      <br><br>
+
+      If you're stuck on a specific Python program,
+      post the exact question in <strong>Ask Doubt</strong>
+      and your peers can provide a detailed solution.
+
+    `;
+
+  }
+
+
+  if(
+    q.includes("stack") ||
+    q.includes("queue")
+  ){
+
+    return `
+
+      <strong>📦 Stack and Queue</strong>
+
+      A <strong>Stack</strong> follows LIFO:
+      Last In, First Out.
+
+      <br>
+      Example: Undo operation.
+
+      <br><br>
+
+      A <strong>Queue</strong> follows FIFO:
+      First In, First Out.
+
+      <br>
+      Example: Printer queue.
+
+      <br><br>
+
+      Stack operations:
+      push, pop, peek.
+
+      <br>
+
+      Queue operations:
+      enqueue, dequeue.
+
+    `;
+
+  }
+
+
+  if(
+    q.includes("operating system") ||
+    q.includes("os") ||
+    q.includes("process") ||
+    q.includes("thread")
+  ){
+
+    return `
+
+      <strong>⚙️ Operating System</strong>
+
+      An Operating System manages hardware and software resources
+      and provides services to application programs.
+
+      <br><br>
+
+      Important OS topics:
+
+      <br>
+      • Process Management
+      <br>
+      • Threads
+      <br>
+      • CPU Scheduling
+      <br>
+      • Deadlocks
+      <br>
+      • Memory Management
+      <br>
+      • Virtual Memory
+      <br>
+      • File Systems
+
+      <br><br>
+
+      A process is a program in execution.
+      A thread is a smaller execution unit inside a process.
+
+    `;
+
+  }
+
+
+  if(
+    q.includes("network") ||
+    q.includes("tcp") ||
+    q.includes("ip") ||
+    q.includes("osi")
+  ){
+
+    return `
+
+      <strong>🌐 Computer Networks</strong>
+
+      Computer networking allows devices to communicate
+      and share information.
+
+      <br><br>
+
+      The OSI model contains 7 layers:
+
+      <br>
+      1. Physical
+      <br>
+      2. Data Link
+      <br>
+      3. Network
+      <br>
+      4. Transport
+      <br>
+      5. Session
+      <br>
+      6. Presentation
+      <br>
+      7. Application
+
+      <br><br>
+
+      TCP provides reliable, connection-oriented communication,
+      while UDP is faster and connectionless.
+
+    `;
+
+  }
+
+
+  if(
+    q.includes("machine learning") ||
+    q.includes("ai") ||
+    q.includes("artificial intelligence") ||
+    q.includes("ml")
+  ){
+
+    return `
+
+      <strong>🤖 AI / Machine Learning</strong>
+
+      Artificial Intelligence focuses on creating systems
+      that can perform tasks requiring intelligent behavior.
+
+      <br><br>
+
+      Machine Learning allows computers to learn patterns
+      from data.
+
+      <br><br>
+
+      Main ML types:
+
+      <br>
+      • Supervised Learning
+      <br>
+      • Unsupervised Learning
+      <br>
+      • Reinforcement Learning
+
+      <br><br>
+
+      Examples include classification, regression,
+      clustering and recommendation systems.
+
+    `;
+
+  }
+
+
+  if(
+    q.includes("dbms") ||
+    q.includes("database") ||
+    q.includes("sql")
+  ){
+
+    return `
+
+      <strong>🗄️ DBMS Help</strong>
+
+      DBMS stands for Database Management System.
+
+      <br><br>
+
+      It helps users store, organize, retrieve and manage data.
+
+      <br><br>
+
+      Important DBMS topics:
+
+      <br>
+      • Keys
+      <br>
+      • SQL
+      <br>
+      • Normalization
+      <br>
+      • ER Model
+      <br>
+      • Transactions
+      <br>
+      • ACID Properties
+      <br>
+      • Joins
+      <br>
+      • Indexing
+
+    `;
+
+  }
+
+
+  if(
+    q.includes("time complexity") ||
+    q.includes("big o") ||
+    q.includes("complexity")
+  ){
+
+    return `
+
+      <strong>📈 Time Complexity</strong>
+
+      Time complexity describes how an algorithm's running
+      time grows as the input size increases.
+
+      <br><br>
+
+      Common complexities:
+
+      <br>
+      O(1) → Constant
+      <br>
+      O(log n) → Logarithmic
+      <br>
+      O(n) → Linear
+      <br>
+      O(n log n) → Linearithmic
+      <br>
+      O(n²) → Quadratic
+
+      <br><br>
+
+      Example:
+      Binary search is O(log n), while linear search is O(n).
+
+    `;
+
+  }
+
+
+  return `
+
+    <strong>🤖 PeerSolve AI Agent</strong>
+
+    I understand your question:
+
+    <br><br>
+
+    <em>
+      "${escapeHTML(query)}"
+    </em>
+
+    <br><br>
+
+    I can currently provide quick guidance for:
+
+    <br>
+    • Data Structures
+    <br>
+    • Algorithms
+    <br>
+    • Python
+    <br>
+    • Java
+    <br>
+    • DBMS
+    <br>
+    • Operating Systems
+    <br>
+    • Computer Networks
+    <br>
+    • AI / ML
+    <br>
+    • Time Complexity
+
+    <br><br>
+
+    For a detailed peer solution, you can also
+    post this question using <strong>Ask Doubt</strong>.
+
+  `;
+
+}
+
+
+function quickAI(){
+
+  const val =
+    document
+      .getElementById("quickAI")
+      .value
+      .trim();
+
+
+  if(!val){
+
+    showToast(
+      "Please enter a question.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  showPageById(
+    "ai"
+  );
+
+
+  document.getElementById(
+    "aiInput"
+  ).value =
+    val;
+
+
+  askAI();
+
+
+  document.getElementById(
+    "quickAI"
+  ).value="";
+
+}
+
+
+function askAI(){
+
+  const input =
+    document.getElementById(
+      "aiInput"
+    );
+
+
+  const query =
+    input.value.trim();
+
+
+  if(!query){
+
+    showToast(
+      "Ask an academic question first.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const conversation =
+    document.getElementById(
+      "aiConversation"
+    );
+
+
+  conversation.innerHTML += `
+
+    <div class="ai-message ai-user">
+
+      <strong>
+        👤 You
+      </strong>
+
+      ${escapeHTML(query)}
+
+    </div>
+
+  `;
+
+
+  const thinking =
+    document.createElement(
+      "div"
+    );
+
+
+  thinking.className =
+    "ai-message ai-bot";
+
+
+  thinking.innerHTML = `
+
+    <strong>
+      🤖 PeerSolve AI
+    </strong>
+
+    <div class="ai-thinking">
+
+      AI Agent is thinking
+
+      <span class="ai-dot"></span>
+      <span class="ai-dot"></span>
+      <span class="ai-dot"></span>
+
+    </div>
+
+  `;
+
+
+  conversation.appendChild(
+    thinking
+  );
+
+
+  conversation.scrollTop =
+    conversation.scrollHeight;
+
+
+  input.value="";
+
+
+  setTimeout(() => {
+
+    thinking.innerHTML = `
+
+      <strong>
+        🤖 PeerSolve AI
+      </strong>
+
+      ${getAIResponse(query)}
+
+    `;
+
+
+    conversation.scrollTop =
+      conversation.scrollHeight;
+
+  },700);
+
+}
+
+
+function clearAIChat(){
+
+  document.getElementById(
+    "aiConversation"
+  ).innerHTML = `
+
+    <div class="ai-message ai-bot">
+
+      <strong>
+        🤖 PeerSolve AI
+      </strong>
+
+      Chat cleared.
+
+      <br><br>
+
+      Ask me a new academic question.
+
+    </div>
+
+  `;
+
+
+  showToast(
+    "AI chat cleared.",
+    "info"
+  );
+
+}
+
+
+/* =========================================================
+   RESOURCE SHARING
+========================================================= */
+
+function toggleResourceForm(){
+
+  document
+    .getElementById(
+      "resourceForm"
+    )
+    .classList.toggle(
+      "hidden"
+    );
+
+}
+
+
+function shareResource(){
+
+  if(!currentUser){
+
+    showToast(
+      "Please login first.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const title =
+    document.getElementById(
+      "resourceTitle"
+    ).value.trim();
+
+
+  const subject =
+    document.getElementById(
+      "resourceSubject"
+    ).value;
+
+
+  const link =
+    document.getElementById(
+      "resourceLink"
+    ).value.trim();
+
+
+  const description =
+    document.getElementById(
+      "resourceDescription"
+    ).value.trim();
+
+
+  if(!title || !subject || !link){
+
+    showToast(
+      "Please fill the required resource fields.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    new URL(link);
+
+  }catch{
+
+    showToast(
+      "Please enter a valid URL.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const resources =
+    getResources();
+
+
+  resources.unshift({
+
+    id:Date.now(),
+
+    userId:currentUser.id,
+
+    title,
+
+    subject,
+
+    link,
+
+    description:
+      description ||
+      "Useful academic resource shared by the PeerSolve community.",
+
+    createdBy:currentUser.name,
+
+    createdAt:new Date().toLocaleDateString(
+      "en-IN",
+      {
+        day:"2-digit",
+        month:"short",
+        year:"numeric"
+      }
+    )
+
+  });
+
+
+  saveResources(
+    resources
+  );
+
+
+  document.getElementById(
+    "resourceTitle"
+  ).value="";
+
+
+  document.getElementById(
+    "resourceSubject"
+  ).value="";
+
+
+  document.getElementById(
+    "resourceLink"
+  ).value="";
+
+
+  document.getElementById(
+    "resourceDescription"
+  ).value="";
+
+
+  document
+    .getElementById(
+      "resourceForm"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  renderResources();
+
+
+  showToast(
+    "📚 Resource shared successfully!",
+    "success"
+  );
+
+}
+
+
+function getResourceIcon(subject){
+
+  const icons={
+
+    "Data Structures":"💻",
+
+    "DBMS":"🗄️",
+
+    "Python":"🐍",
+
+    "Java":"☕",
+
+    "AI/ML":"🤖",
+
+    "Operating System":"⚙️",
+
+    "Computer Networks":"🌐",
+
+    "Mathematics":"📐"
+
+  };
+
+
+  return icons[subject] || "📚";
+
+}
+
+
+function renderResources(){
+
+  const container =
+    document.getElementById(
+      "resourceGrid"
+    );
+
+
+  if(!container){
+    return;
+  }
+
+
+  const search =
+    (
+      document.getElementById(
+        "resourceSearch"
+      )?.value || ""
+    )
+    .toLowerCase();
+
+
+  const subject =
+    document.getElementById(
+      "resourceFilter"
+    )?.value || "";
+
+
+  const resources =
+    getResources();
+
+
+  const filtered =
+    resources.filter(r => {
+
+      const text = (
+
+        r.title+
+        " "+
+        r.description+
+        " "+
+        r.subject+
+        " "+
+        r.createdBy
+
+      )
+      .toLowerCase();
+
+
+      return (
+
+        text.includes(search) &&
+
+        (
+          !subject ||
+          r.subject === subject
+        )
+
+      );
+
+    });
+
+
+  if(!filtered.length){
+
+    container.innerHTML = `
+
+      <div
+        class="card empty-state"
+        style="grid-column:1/-1"
+      >
+
+        <div class="empty-icon">
+          📚
+        </div>
+
+        <strong>
+          No resources found
+        </strong>
+
+        <p>
+          Share the first useful learning resource!
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    filtered.map(r => `
+
+      <div class="resource-card">
+
+        <div class="resource-icon">
+          ${getResourceIcon(r.subject)}
+        </div>
+
+
+        <span class="badge">
+          ${escapeHTML(r.subject)}
+        </span>
+
+
+        <div
+          class="resource-title"
+          style="margin-top:10px"
+        >
+          ${escapeHTML(r.title)}
+        </div>
+
+
+        <div class="resource-description">
+
+          ${escapeHTML(
+            r.description
+          )}
+
+        </div>
+
+
+        <div class="resource-meta">
+
+          <span>
+            👤 ${escapeHTML(r.createdBy)}
+          </span>
+
+          <span>
+            ${escapeHTML(r.createdAt)}
+          </span>
+
+        </div>
+
+
+        <div class="resource-actions">
+
+          <button
+            class="resource-btn primary"
+            onclick="openResource('${encodeURIComponent(r.link)}')"
+          >
+            🔗 Open
+          </button>
+
+
+          ${
+            currentUser &&
+            r.userId === currentUser.id
+
+            ?
+
+            `<button
+              class="resource-btn"
+              onclick="deleteResource(${r.id})"
+            >
+              🗑 Delete
+            </button>`
+
+            :
+
+            ""
+
+          }
+
+        </div>
+
+      </div>
+
+    `)
+    .join("");
+
+}
+
+
+function openResource(encodedLink){
+
+  const link =
+    decodeURIComponent(
+      encodedLink
+    );
+
+
+  window.open(
+    link,
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+function deleteResource(id){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  const resources =
+    getResources();
+
+
+  const resource =
+    resources.find(
+      r =>
+        r.id === id
+    );
+
+
+  if(!resource){
+    return;
+  }
+
+
+  if(
+    resource.userId !==
+    currentUser.id
+  ){
+
+    showToast(
+      "You can delete only resources shared by you.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    !confirm(
+      "Delete this resource?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  const updated =
+    resources.filter(
+      r =>
+        r.id !== id
+    );
+
+
+  saveResources(
+    updated
+  );
+
+
+  renderResources();
+
+
+  showToast(
+    "Resource deleted.",
+    "info"
+  );
+
+}
+
+
+/* =========================================================
+   THEME SYSTEM
+========================================================= */
+
+function setTheme(theme){
+
+  localStorage.setItem(
+    "peerSolveTheme",
+    theme
+  );
+
+
+  applyTheme(
+    theme
+  );
+
+
+  updateThemeCards();
+
+
+  showToast(
+    "Theme changed to "+capitalize(theme)+".",
+    "success"
+  );
+
+}
+
+
+function applyTheme(theme){
+
+  let dark=false;
+
+
+  if(theme==="dark"){
+
+    dark=true;
+
+  }
+
+
+  if(theme==="system"){
+
+    dark =
+      window.matchMedia &&
+      window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+  }
+
+
+  document.body.classList.toggle(
+    "dark-theme",
+    dark
+  );
+
+
+  const btn =
+    document.getElementById(
+      "themeTopButton"
+    );
+
+
+  if(btn){
+
+    btn.textContent =
+      dark ? "☀️" : "🌙";
+
+  }
+
+}
+
+
+function applySavedTheme(){
+
+  const theme =
+    localStorage.getItem(
+      "peerSolveTheme"
+    ) || "system";
+
+
+  applyTheme(
+    theme
+  );
+
+
+  updateThemeCards();
+
+}
+
+
+function updateThemeCards(){
+
+  const theme =
+    localStorage.getItem(
+      "peerSolveTheme"
+    ) || "system";
+
+
+  [
+    "themeLight",
+    "themeDark",
+    "themeSystem"
+  ].forEach(id => {
+
+    const el =
+      document.getElementById(id);
+
+    if(el){
+
+      el.classList.remove(
+        "active"
+      );
+
+    }
+
+  });
+
+
+  const activeMap={
+
+    light:"themeLight",
+
+    dark:"themeDark",
+
+    system:"themeSystem"
+
+  };
+
+
+  const active =
+    document.getElementById(
+      activeMap[theme]
+    );
+
+
+  if(active){
+
+    active.classList.add(
+      "active"
+    );
+
+  }
+
+}
+
+
+function cycleTheme(){
+
+  const current =
+    localStorage.getItem(
+      "peerSolveTheme"
+    ) || "system";
+
+
+  let next="light";
+
+
+  if(current==="light"){
+    next="dark";
+  }else if(current==="dark"){
+    next="system";
+  }else{
+    next="light";
+  }
+
+
+  setTheme(
+    next
+  );
+
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function saveSettings(){
+
+  const settings={
+
+    notifications:
+      document.getElementById(
+        "notificationSetting"
+      ).checked,
+
+    ai:
+      document.getElementById(
+        "aiSetting"
+      ).checked
+
+  };
+
+
+  localStorage.setItem(
+    "peerSolveSettings",
+    JSON.stringify(settings)
+  );
+
+
+  showToast(
+    "Settings saved.",
+    "success"
+  );
+
+}
+
+
+function loadSettings(){
+
+  const settings =
+    JSON.parse(
+      localStorage.getItem(
+        "peerSolveSettings"
+      ) || "{}"
+    );
+
+
+  if(
+    settings.notifications !== undefined
+  ){
+
+    document.getElementById(
+      "notificationSetting"
+    ).checked =
+      settings.notifications;
+
+  }
+
+
+  if(
+    settings.ai !== undefined
+  ){
+
+    document.getElementById(
+      "aiSetting"
+    ).checked =
+      settings.ai;
+
+  }
+
+}
+
+
+/* =========================================================
+   REPORTS
+========================================================= */
+
+function resolveReport(button){
+
+  const card =
+    button.closest(
+      ".question-card"
+    );
+
+
+  if(card){
+
+    card.style.opacity=".5";
+
+  }
+
+
+  button.textContent =
+    "✓ Resolved";
+
+
+  showToast(
+    "Report resolved.",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+function showNotifications(){
+
+  const notificationsEnabled =
+    document.getElementById(
+      "notificationSetting"
+    )?.checked !== false;
+
+
+  if(!notificationsEnabled){
+
+    showToast(
+      "Notifications are disabled in Settings.",
+      "info"
+    );
+
+    return;
+
+  }
+
+
+  alert(
+
+`🔔 PeerSolve Notifications
+
+• Your doubts and answers are synchronized locally.
+• Other registered peers can answer your questions.
+• Resource sharing is available in Resources.
+• AI Agent is available from the AI Assistant page.`
+
+  );
+
+}
+
+
+/* =========================================================
+   EXPORT DATA
+========================================================= */
+
+function exportPeerSolveData(){
+
+  const data={
+
+    users:getUsers(),
+
+    questions:getQuestions(),
+
+    resources:getResources(),
+
+    theme:
+      localStorage.getItem(
+        "peerSolveTheme"
+      ),
+
+    settings:
+      JSON.parse(
+        localStorage.getItem(
+          "peerSolveSettings"
+        ) || "{}"
+      )
+
+  };
+
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          data,
+          null,
+          2
+        )
+      ],
+      {
+        type:"application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href=url;
+
+  a.download=
+    "peersolve-data.json";
+
+
+  a.click();
+
+
+  URL.revokeObjectURL(
+    url
+  );
+
+
+  showToast(
+    "📥 Data exported successfully.",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   RESET DEMO DATA
+========================================================= */
+
+function resetDemoData(){
+
+  if(
+    !confirm(
+      "Reset PeerSolve demo data? Your locally registered users, doubts and resources will be replaced."
+    )
+  ){
+
+    return;
+
+  }
+
+
+  localStorage.setItem(
+    "peerSolveUsers",
+    JSON.stringify(defaultUsers)
+  );
+
+
+  localStorage.setItem(
+    "peerSolveQuestions",
+    JSON.stringify(defaultQuestions)
+  );
+
+
+  localStorage.setItem(
+    "peerSolveResources",
+    JSON.stringify(defaultResources)
+  );
+
+
+  localStorage.removeItem(
+    "peerSolveBookmarks"
+  );
+
+
+  showToast(
+    "Demo data reset successfully.",
+    "success"
+  );
+
+
+  setTimeout(
+    () => location.reload(),
+    700
+  );
+
+}
+
+
+/* =========================================================
+   RENDER EVERYTHING
+========================================================= */
+
+function renderAllViews(){
+
+  renderQuestions();
+
+  renderRecentQuestions();
+
+  renderMyQuestions();
+
+  renderSeniorRequests();
+
+  renderLeaderboard();
+
+  renderDashboardStats();
+
+  renderProfile();
+
+  renderUsers();
+
+  renderAnalytics();
+
+  renderResources();
+
+  loadSettings();
+
+}
+
+
+/* =========================================================
+   AUTO LOGIN
+========================================================= */
+
+function checkExistingLogin(){
+
+  const email =
+    localStorage.getItem(
+      "peerSolveCurrentUser"
+    );
+
+
+  if(!email){
+    return;
+  }
+
+
+  const users =
+    getUsers();
+
+
+  const user =
+    users.find(
+      u =>
+        u.email === email
+    );
+
+
+  if(user){
+
+    currentUser=user;
+
+    currentRole=user.role;
+
+    openApplication();
+
+  }
+
+}
+
+
+/* =========================================================
+   KEYBOARD SUPPORT
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  e => {
+
+    if(
+      e.key==="Enter" &&
+      !document
+        .getElementById(
+          "loginScreen"
+        )
+        .classList.contains(
+          "hidden"
+        )
+    ){
+
+      loginUser();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   SYSTEM THEME CHANGE
+========================================================= */
+
+if(
+  window.matchMedia
+){
+
+  window
+    .matchMedia(
+      "(prefers-color-scheme: dark)"
+    )
+    .addEventListener(
+      "change",
+      () => {
+
+        const theme =
+          localStorage.getItem(
+            "peerSolveTheme"
+          );
+
+
+        if(theme==="system"){
+
+          applyTheme(
+            "system"
+          );
+
+        }
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL ON BACKDROP
+========================================================= */
+
+document.addEventListener(
+  "click",
+  e => {
+
+    if(
+      e.target.classList.contains(
+        "modal"
+      )
+    ){
+
+      e.target.classList.add(
+        "hidden"
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+applySavedTheme();
+
+loadSettings();
+
+checkExistingLogin();
+
+</script>
+
+</body>
+</html>
